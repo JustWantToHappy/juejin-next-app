@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  password    String
+  name        String
+  phone       String
+  desc        String    @db.Text
+  age         Int       @default(0)
+  birthday    DateTime  @default(now())
+  github      String?
+  avatar      String?   @default("avatar")
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime?
+  Articles    Article[]
+  Comments    Comment[]
+  Likes       Like[]
+  Collections Collect[]
+}
+
+model Article {
+  id           String    @id @default(uuid())
+  title        String
+  content      String    @db.Text
+  desc         String    @db.Text
+  likeCount    Int       @default(0)
+  collectCount Int       @default(0)
+  commentCount Int       @default(0)
+  updatedAt    DateTime  @default(now())
+  createdAt    DateTime  @default(now())
+  Tags         Tag[]
+  Comments     Comment[]
+  Likes        Like[]
+  Collections  Collect[]
+  User         User?     @relation(fields: [userId], references: [id])
+  userId       String?
+}
+
+model Tag {
+  id       Int       @id @default(autoincrement())
+  name     String
+  Articles Article[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  Article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+
+  @@unique([userId, articleId])
+}
+
+model Collect {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  Article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+
+  @@unique([userId, articleId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  likes     Int      @default(0)
+  content   String   @db.Text
+  parentId  Int      @default(0)
+  createdAt DateTime @default(now())
+  Article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
