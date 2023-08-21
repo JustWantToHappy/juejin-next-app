@@ -1,0 +1,14 @@
+@tailwind base;
+
+@layer base{
+  :root{
+    --juejin-md-font:#595959;
+
+  }
+}
+.markdown_body{
+
+}
+.markdown_body p{
+  color:red;
+}

@@ -5,6 +5,8 @@
 @layer base{
   *{
     box-sizing: border-box;
-    
+  }
+  input{
+    outline:solid;
   }
 }

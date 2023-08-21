@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `article` ADD COLUMN `readCount` INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `level` INTEGER NOT NULL DEFAULT 0;

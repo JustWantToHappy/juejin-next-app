@@ -11,22 +11,24 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  email       String    @unique
+  id          String      @id @default(uuid())
+  email       String      @unique
   password    String
   name        String
   phone       String
-  desc        String    @db.Text
-  age         Int       @default(0)
-  birthday    DateTime  @default(now())
+  desc        String      @db.Text
+  level       Int         @default(0)
+  age         Int         @default(0)
+  birthday    DateTime    @default(now())
   github      String?
-  avatar      String?   @default("avatar")
-  createdAt   DateTime  @default(now())
+  avatar      String?     @default("avatar")
+  createdAt   DateTime    @default(now())
   updateAt    DateTime?
   Articles    Article[]
   Comments    Comment[]
   Likes       Like[]
   Collections Collect[]
+  Attentions  Attention[]
 }
 
 model Article {
@@ -37,6 +39,7 @@ model Article {
   likeCount    Int       @default(0)
   collectCount Int       @default(0)
   commentCount Int       @default(0)
+  readCount    Int       @default(0)
   updatedAt    DateTime  @default(now())
   createdAt    DateTime  @default(now())
   Tags         Tag[]
@@ -47,8 +50,15 @@ model Article {
   userId       String?
 }
 
+model Nav {
+  id   Int    @id @default(autoincrement())
+  key  String
+  name String
+}
+
 model Tag {
   id       Int       @id @default(autoincrement())
+  key      String
   name     String
   Articles Article[]
 }
@@ -65,12 +75,11 @@ model Like {
 }
 
 model Collect {
-  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
-  Article   Article? @relation(fields: [articleId], references: [id])
-  articleId String?
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+  Article   Article @relation(fields: [articleId], references: [id])
+  articleId String
 
   @@unique([userId, articleId])
 }
@@ -85,4 +94,12 @@ model Comment {
   articleId String?
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
+}
+
+model Attention {
+  User       User   @relation(fields: [follower], references: [id])
+  follower   String
+  followered String
+
+  @@unique([follower, followered])
 }
