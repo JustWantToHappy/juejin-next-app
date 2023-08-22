@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { FetcherResponse } from 'swr/_internal'
 import {AxiosRequestConfig,AxiosResponse,AxiosError } from 'axios'
 
 axios.interceptors.request.use(config => {
@@ -10,7 +11,7 @@ axios.interceptors.response.use((response) => {
   return response.data
 }, (err:AxiosError) => Promise.reject(err.response?.data))
 
-export const Get = <T>(url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config)
+export const Get = <T>(url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config) as FetcherResponse<T>
 
 export const Post = <U,T>(url: string,data:U, config?: AxiosRequestConfig) =>
 new Promise(resolve => {

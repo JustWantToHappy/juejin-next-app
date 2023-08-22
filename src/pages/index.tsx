@@ -1,8 +1,14 @@
 import React from 'react'
+import Head from 'next/head'
 
 const Home = () => {
   return (
-    <div>首页</div>
+    <>
+      <Head>
+        <title>juejin</title>
+      </Head>
+      <div>首页</div>
+    </>
   )
 }
 

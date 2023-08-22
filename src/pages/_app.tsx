@@ -17,9 +17,12 @@ const App: React.FC<Props> = ({
     return getLayout(<Component {...pageProps} />)
   } else {
     return (
-      <BasicLayout>
-        <Component {...pageProps} />
-      </BasicLayout>
+      <>
+
+        <BasicLayout>
+          <Component {...pageProps} />
+        </BasicLayout>
+      </>
     )
   }
 }
