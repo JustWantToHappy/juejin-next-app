@@ -18,7 +18,6 @@ const App: React.FC<Props> = ({
   } else {
     return (
       <>
-
         <BasicLayout>
           <Component {...pageProps} />
         </BasicLayout>

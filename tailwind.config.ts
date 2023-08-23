@@ -13,6 +13,7 @@ const config: Config = {
       'juejin-font-2': '#515767',
       'juejin-font-3': '#8a919f',
       'juejin-font-4': '#c2c8d1',
+      'juejin-font-primary':'#1d2129',
       //按钮相关
       'juejin-brand-1-normal': '#1e80ff',
       'juejin-brand-2-hover': '#1171ee',
@@ -24,9 +25,19 @@ const config: Config = {
       'juejin-mask-2': '#fff',
       //布局块的背景
       'juejin-layer-1': '#fff',
-      'juejin-layer-2-1': "#f7f8fa",
+      'juejin-layer-2-1': '#f7f8fa',
       'juejin-layer-2-2':'rgba(247,248,250,0.7)',
-      'juejin-background':'#f2f3f5'
+      'juejin-bg': '#f2f3f5',
+      //gray
+      'juejin-gray-0': '#fff',
+      'juejin-gray-1-1': '#e4e6eb',
+      'juejin-gray-1-2': 'rgba(228, 230, 235, 0.5)',
+      'juejin-gray-1-3': '#e4e6eb',
+      'juejin-gray-2': '#f2f3f5',
+      'juejin-gray-3': '#f7f8fa',
+      //other
+      'juejin-nav-title': '#86909c',
+      'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',
     },
     extend: {
       backgroundImage: {
@@ -35,6 +46,11 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    screens: {
+      'sm':'640px',
+      'md':'798px',
+      'lg': '1148px',
+    }
   },
   plugins: [],
 }

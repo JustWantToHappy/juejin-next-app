@@ -1,13 +1,13 @@
 import React from 'react'
 import Head from 'next/head'
+import Header from '@/components/Header'
 
 const Home = () => {
   return (
     <>
       <Head>
-        <title>juejin</title>
+        <title>稀土掘金</title>
       </Head>
-      <div>首页</div>
     </>
   )
 }

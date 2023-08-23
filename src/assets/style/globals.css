@@ -6,7 +6,23 @@
   *{
     box-sizing: border-box;
   }
+  :root{
+    @apply text-sm;
+  }
+  body{
+    @apply bg-juejin-bg;
+  }
   input{
-    outline:solid;
+    outline:none;
+    background-color:#fff;
+    @apply hover:border-juejin-font-2 rounded focus:border-juejin-brand-2-hover;
+    @apply py-4 pl-2 border border-juejin-font-4;
   }
 }
+
+@layer components{
+  .btn{
+    @apply pl-4 pr-4 h-10 rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
+  }
+}
+
