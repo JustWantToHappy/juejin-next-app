@@ -8,6 +8,7 @@ const Home = () => {
       <Head>
         <title>稀土掘金</title>
       </Head>
+      <div className='h-[10000px]'>我是首页</div>
     </>
   )
 }

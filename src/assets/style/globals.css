@@ -8,6 +8,7 @@
   }
   :root{
     @apply text-sm;
+    --nav-header-height:60px;
   }
   body{
     @apply bg-juejin-bg;
@@ -24,5 +25,13 @@
   .btn{
     @apply pl-4 pr-4 h-10 rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
   }
+}
+
+@layer utilities{
+  /* 头部导航栏高度 */
+  .nav-height{
+    height:var(--nav-header-height);
+  }
+  
 }
 

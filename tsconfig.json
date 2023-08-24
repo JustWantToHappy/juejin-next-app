@@ -11,6 +11,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noImplicitThis": false,//this严格模式关闭
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "Node",

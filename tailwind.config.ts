@@ -40,11 +40,7 @@ const config: Config = {
       'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',
     },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
+      //用于覆写tailiwind内置的样式
     },
     screens: {
       'sm':'640px',
