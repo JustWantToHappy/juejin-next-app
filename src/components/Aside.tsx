@@ -2,8 +2,8 @@ import React from 'react'
 
 const Aside = () => {
   return (
-    <aside>
-      
+    <aside className='layer w-[--home-aside-width] h-[1000px] hidden lg:block'>
+
     </aside>
   )
 }

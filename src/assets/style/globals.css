@@ -9,6 +9,12 @@
   :root{
     @apply text-sm;
     --nav-header-height:60px;
+    /* 首页layer */
+    --home-tag-width:180px;
+    --home-recommend-width:720px;
+    --home-up-to-data-width:720px;
+    --home-aside-width:260px;
+    --home-recommend-min-width:500px;
   }
   body{
     @apply bg-juejin-bg;
@@ -25,6 +31,22 @@
   .btn{
     @apply pl-4 pr-4 h-10 rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
   }
+  /* 布局块 */
+  .layer{
+    @apply bg-juejin-layer-1 rounded-sm py-4;
+  }
+  /* 骨架屏 */
+  .skeleton{
+      background-image: linear-gradient(
+      to right,
+      #f6f7f8 0%,
+      #edeef1 10%,
+      #f6f7f8 20%,
+      #f6f7f8 100%
+    );
+    background-size: 200% 100%;
+    @apply animate-skeleton 
+  }
 }
 
 @layer utilities{
@@ -32,6 +54,5 @@
   .nav-height{
     height:var(--nav-header-height);
   }
-  
 }
 

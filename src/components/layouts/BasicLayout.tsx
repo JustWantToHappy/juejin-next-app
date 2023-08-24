@@ -1,15 +1,17 @@
 import React from 'react'
 import Header from '../Header'
-import { useHeader, useThrottle } from '@/hooks'
+import NavTags from '../NavTags'
+import { headerStore } from '@/store'
+import { useThrottle } from '@/hooks'
 
 const BasicLayout: React.FC<React.PropsWithChildren> = (props) => {
-  const { onClose, onOpen } = useHeader()
+  const { onClose, onOpen } = headerStore()
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>()
   const prevStopScrollTopRef = React.useRef<number>(0)
 
   const handleScroll = useThrottle(() => {
     const scrollTop = window.scrollY
-    if (scrollTop - prevStopScrollTopRef.current > 30) onClose()
+    if (scrollTop - prevStopScrollTopRef.current > 100) onClose()
     if (prevStopScrollTopRef.current - scrollTop > 30 || !scrollTop) onOpen()
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
@@ -29,7 +31,7 @@ const BasicLayout: React.FC<React.PropsWithChildren> = (props) => {
     <main>
       <Header />
       <div className='my-[--nav-header-height]'></div>
-      <div className='h-[2000px]'>{props.children}</div>
+      <div className='pt-6'>{props.children}</div>
     </main>
   )
 }

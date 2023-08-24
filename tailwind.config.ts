@@ -40,12 +40,26 @@ const config: Config = {
       'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',
     },
     extend: {
-      //用于覆写tailiwind内置的样式
+      //用于覆写tailiwind内置的样式，也可以添加自定义动画，过渡效果等
+      animation: {
+        skeleton:'bgPos 1s linear infinite'
+      },
+      keyframes: {
+        bgPos: {
+          '0%': {
+            backgroundPosition:'50% 0'
+          },
+          '100%': {
+            backgroundPosition:'-150% 0'
+          }
+        }
+      },
     },
     screens: {
       'sm':'640px',
-      'md':'798px',
-      'lg': '1148px',
+      'md': '798px',
+      'lg':'1000px',
+      'xl': '1148px',
     }
   },
   plugins: [],

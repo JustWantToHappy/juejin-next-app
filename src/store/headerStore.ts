@@ -6,7 +6,7 @@ interface Header<T extends ((...args:unknown[])=>unknown)>{
   onOpen:T
 }
 
-export const useHeader = create<Header<()=>void>>(set => ({
+export const headerStore = create<Header<()=>void>>(set => ({
   close: false,
   onClose: () => set({close:true}),
   onOpen:()=>set({close:false})

@@ -6,10 +6,11 @@ import { useForm, SubmitErrorHandler } from 'react-hook-form'
 
 const Admin = () => {
   const fetcher: Fetcher<{ name: string }> = (url: string) => Get<{ name: string }>(url)
-  const { data, error, isLoading } = useSwr('/api/nav', fetcher)
+  const { data, error, isLoading } = useSwr('/api/tag', fetcher)
+  console.info(data)
   const { register, setValue, handleSubmit, formState } = useForm<{ key: string, name: string }>()
   const onSubmit = handleSubmit(data => {
-    Post('/api/nav', data).then(console.info).catch(console.info)
+    Post('/api/tag', data).then(console.info).catch(console.info)
   })
 
 
@@ -20,9 +21,8 @@ const Admin = () => {
         <input {...register('key')} />
         <label>name</label>
         <input {...register('name')} />
-        <button>添加nav</button>
-      </form>
-      <hr />*/}
+        <button>添加tag</button>
+      </form>*/}
     </div>
   )
 }
