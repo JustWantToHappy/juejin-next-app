@@ -2,15 +2,17 @@ import React from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import type { Nav } from '@/types'
-import Aside from '@/components/Aside'
-import Header from '@/components/Header'
-import NavTags from '@/components/NavTags'
+import type { GetServerSideProps } from 'next'
 import Skeleton from '@/components/Skeleton'
 import BasicLayout from '@/components/layouts/BasicLayout'
 import HomeLayout from '@/components/layouts/HomeLayout'
 
+export const getServerSideProps: GetServerSideProps = async () => {
+  return { props: { data: '傻逼' } }
+}
 
-const Home = () => {
+const Home = (props: {}) => {
+  console.info(props)
   const navs: Nav[] = [
     { key: '/', name: '推荐' },
     { key: '/?sort=newest', name: '最新' }
@@ -28,7 +30,7 @@ const Home = () => {
             <ul className='flex gap-x-10 text-[16px] text-juejin-font-3 '>
               {navs.map(nav => <li
                 key={nav.key}
-                className={` relative after:absolute after:bg-juejin-brand-1-normal after:w-4 after:h-1 after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded-sm ${active === nav.key ? ' after:block' : ' after:hidden'}`}>
+                className={` hover:text-juejin-brand-2-hover relative after:absolute after:bg-juejin-brand-1-normal after:w-4 after:h-1 after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded-sm ${active === nav.key ? ' after:block' : ' after:hidden'}`}>
                 <Link
                   href={nav.key}
                   locale='zh'>

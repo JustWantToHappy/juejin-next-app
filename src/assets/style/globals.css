@@ -9,7 +9,6 @@
   :root{
     @apply text-sm;
     --nav-header-height:60px;
-    /* 首页layer */
     --home-tag-width:180px;
     --home-recommend-width:720px;
     --home-up-to-data-width:720px;
@@ -17,6 +16,7 @@
     --home-recommend-min-width:500px;
     --home-recommend-header-height:4rem;
     --home-recommend-padding-x:20px;
+    --aside-top:2rem;
   }
   body{
     @apply bg-juejin-bg;
@@ -56,5 +56,8 @@
   .nav-height{
     height:var(--nav-header-height);
   }
+  .aside-top{
+    top:var(--aside-top);
+  }  
 }
 
