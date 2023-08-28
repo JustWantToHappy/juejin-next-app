@@ -17,16 +17,17 @@ const Header = () => {
   const fetcher: Fetcher<Nav[]> = (url: string) => Get<Nav[]>(url)
   const { data } = useSwr('/api/nav', fetcher)
 
+
   return (
     <header
       style={{ top: `${header.close ? '-60px' : '0px'}` }}
-      className='w-full flex bg-juejin-layer-1 nav-height text-juejin-font-2 items-center px-4 overflow-hidden transition-top duration-300 fixed top-0 left-0 right-0 z-50'>
+      className='w-full flex bg-juejin-layer-1 nav-height text-juejin-font-2 items-center pl-9 overflow-hidden transition-top duration-300 fixed top-0 left-0 right-0 z-50'>
       <a>
         <Image src={JuejinSvg} alt='juejin' priority width={100} height={60} className='hidden sm:inline-block' />
         <Image src={JuejinSmallSvg} alt='juejin' priority width={35} className='inline-block sm:hidden' />
       </a>
       <nav>
-        <ul className='flex ml-5 items-center'>
+        <ul className='flex ml-8 items-center'>
           <li className='w-[466px] items-center hidden xl:flex transition-all  duration-200'>
             {data?.map(nav => <Link key={nav.key} href={nav.key} locale='en'>
               <div

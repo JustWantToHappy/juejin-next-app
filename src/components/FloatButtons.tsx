@@ -32,10 +32,11 @@ const FloatButtons: React.FC<Props> = ({ showUpIcon }) => {
         <AiOutlineVerticalAlignTop />
       </span>
       <span
+        title='建议反馈'
         className=' text-juejin-brand-1-normal'>
         <AiOutlineComment />
       </span>
-      <span><FiMoreHorizontal /></span>
+      <span title='更多'><FiMoreHorizontal /></span>
     </div>
   )
 }
