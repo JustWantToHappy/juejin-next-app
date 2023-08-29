@@ -3,15 +3,15 @@ export type Nav = {
   name: string;
 }
 
-export type Type = {
+export type Tag = {
   [x in 'key'|'name']:string
 }
 
-export type Entry = {
+export type EntryType = {
   id: number;
   title: string;
   likes: number;
-  tags:string[]
+  tags: Tag[]
   image: string;
   readCount: number;
   author: string;

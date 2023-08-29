@@ -23,7 +23,7 @@ const Header = () => {
       style={{ top: `${header.close ? '-60px' : '0px'}` }}
       className='w-full flex bg-juejin-layer-1 nav-height text-juejin-font-2 items-center pl-9 overflow-hidden transition-top duration-300 fixed top-0 left-0 right-0 z-50'>
       <a>
-        <Image src={JuejinSvg} alt='juejin' priority width={100} height={60} className='hidden sm:inline-block' />
+        <Image src={JuejinSvg} alt='juejin' priority width='0' height='0'  className='hidden sm:inline-block w-32 h-auto' />
         <Image src={JuejinSmallSvg} alt='juejin' priority width={35} className='inline-block sm:hidden' />
       </a>
       <nav>

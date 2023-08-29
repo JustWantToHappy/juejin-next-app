@@ -1,15 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { Get } from '@/utils'
+import { useRouter } from 'next/router'
 import { headerStore } from '@/store'
-import type { Type } from '@/types'
+import type { Tag } from '@/types'
 import useSwr, { Fetcher } from 'swr'
 
 const NavTags = () => {
   const { close } = headerStore()
+  const router = useRouter()
   const navRef = React.useRef<HTMLElement>(null)
   const [active, setActive] = React.useState('recommended')
-  const fetcher: Fetcher<Type[]> = (url: string) => Get<Type[]>(url)
+  const fetcher: Fetcher<Tag[]> = (url: string) => Get<Tag[]>(url)
   const { data } = useSwr('/api/tag', fetcher)
 
   return (
@@ -20,6 +22,7 @@ const NavTags = () => {
         {data?.map(tag => <Link
           key={tag.key}
           href={tag.key}
+          onClick={() => setActive(tag.key)}
           locale='zh'
           className={`px-4 py-2 hover:bg-juejin-bg rounded-md leading-7 ${active === tag.key ? ' text-juejin-brand-1-normal bg-juejin-brand-5-light' : ''}`}>
           <span>{tag.name}</span>

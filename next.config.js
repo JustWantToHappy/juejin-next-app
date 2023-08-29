@@ -44,10 +44,6 @@ const nextConfig = {
         source: '/article',
         destination: '/'
       },
-      {
-        source: '/articles',
-        destination: '/'
-      },
     ]
   },
   images: {

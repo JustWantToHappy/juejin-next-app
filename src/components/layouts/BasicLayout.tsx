@@ -32,7 +32,7 @@ const BasicLayout: React.FC<React.PropsWithChildren> = (props) => {
   }, [handleScroll])
 
   return (
-    <main>
+    <main className='min-w-[--layer-min-width]'>
       <Header />
       <div className='my-[--nav-header-height]'></div>
       <div className='pt-6'>{props.children}</div>

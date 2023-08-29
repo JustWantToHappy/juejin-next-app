@@ -13,10 +13,11 @@
     --home-recommend-width:720px;
     --home-up-to-data-width:720px;
     --home-aside-width:260px;
-    --home-recommend-min-width:500px;
     --home-recommend-header-height:4rem;
     --home-recommend-padding-x:20px;
     --aside-top:2rem;
+    
+    --layer-min-width:500px;
   }
   body{
     @apply bg-juejin-bg;
@@ -37,6 +38,17 @@
   .layer{
     @apply bg-juejin-layer-1 rounded-sm;
   }
+  /* 文字省略 */
+  .ellipsis{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+  }
   /* 骨架屏 */
   .skeleton{
       background-image: linear-gradient(
@@ -49,6 +61,7 @@
     background-size: 200% 100%;
     @apply animate-skeleton 
   }
+  
 }
 
 @layer utilities{
