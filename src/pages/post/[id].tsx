@@ -1,8 +1,15 @@
 import React from 'react'
+import Head from 'next/head'
 
 const Post = () => {
+
   return (
-    <div>Post</div>
+    <>
+      <Head>
+        <title>文章页面</title>
+      </Head>
+      
+    </>
   )
 }
 
