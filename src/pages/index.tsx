@@ -48,7 +48,7 @@ const Home = (props: { data: string }) => {
 }
 
 Home.getLayout = function getLayout(page: React.ReactElement) {
-  return (<BasicLayout>
+  return (<BasicLayout session=''>
     <HomeLayout>
       {page}
     </HomeLayout>
@@ -56,7 +56,7 @@ Home.getLayout = function getLayout(page: React.ReactElement) {
 }
 
 Home.getInitialProps = async () => {
-  
+
   return {}
 }
 

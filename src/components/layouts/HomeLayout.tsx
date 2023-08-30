@@ -9,9 +9,9 @@ const HomeLayout: React.FC<React.PropsWithChildren> = (props) => {
   const [active, setActive] = React.useState(0)
 
   return (
-    <div className=' px-10 flex items-start gap-x-6 '>
+    <div className=' px-10 flex items-start gap-x-[--layer-gap] '>
       <NavTags />
-      <div className='flex gap-x-6 flex-1 items-start'>
+      <div className='flex gap-x-[--layer-gap] flex-1 items-start'>
         <div className='lg:w-[--home-recommend-width] layer flex-1 mb-20 '>
           <header className={`border-b-juejin-gray-1-3 border-b h-[--home-recommend-header-height] leading-[--home-recommend-header-height] px-[--home-recommend-padding-x] ${router.asPath === '/following' && 'hidden'}`}>
             <nav>

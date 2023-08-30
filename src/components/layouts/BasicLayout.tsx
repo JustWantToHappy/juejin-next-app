@@ -36,7 +36,8 @@ const BasicLayout: React.FC<React.PropsWithChildren & { session: any }> = (props
 
   return (
     <SessionProvider session={props.session}>
-      <main className='min-w-[--layer-min-width]'>
+      {/* min-w-[--content-min-width] */}
+      <main className=''>
         {open && <SignIn />}
         <Header />
         <div className='my-[--nav-header-height]'></div>

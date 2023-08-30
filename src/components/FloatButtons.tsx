@@ -1,7 +1,7 @@
 import React from 'react'
-import { AiOutlineVerticalAlignTop, AiOutlineComment } from 'react-icons/ai'
 import { FiMoreHorizontal } from 'react-icons/fi'
-
+import { AiOutlineVerticalAlignTop } from 'react-icons/ai'
+import { BiSolidCommentMinus} from 'react-icons/bi'
 interface Props {
   showUpIcon: boolean
 }
@@ -34,7 +34,7 @@ const FloatButtons: React.FC<Props> = ({ showUpIcon }) => {
       <span
         title='建议反馈'
         className=' text-juejin-brand-1-normal'>
-        <AiOutlineComment />
+        <BiSolidCommentMinus />
       </span>
       <span title='更多'><FiMoreHorizontal /></span>
     </div>
