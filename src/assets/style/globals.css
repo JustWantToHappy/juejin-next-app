@@ -18,6 +18,9 @@
     --aside-top:2rem;
     
     --layer-min-width:500px;
+
+    --login-box-width:400px;
+    --login-box-padding:1.5rem;
   }
   body{
     @apply bg-juejin-bg;

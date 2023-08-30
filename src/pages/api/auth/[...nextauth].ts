@@ -1,55 +1,38 @@
+import { isDev } from '@/utils'
 import {prisma} from '@/lib/prismadb'
 import NextAuth, { NextAuthOptions } from 'next-auth'
+import GitHubProvider from 'next-auth/providers/github'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
+  //debug:isDev,
   adapter: PrismaAdapter(prisma),
+  secret:process.env.SECRET,
   providers: [
-    CredentialsProvider({
-      credentials: {
-       email: {
-          type: 'email',
-        },
-        password: {
-          type: 'password',
-        },
-      },
-      async authorize(credentials, req) {
-         const user= await prisma.user.findFirst({where:{
-           email: credentials?.email,
-          }})
-        if (user) {
-          return user
-        } else {
-          return null
-        }
-      },
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID??'',
+      clientSecret: process.env.GITHUB_SECRET ?? '',
+      httpOptions: {
+        timeout:50000
+      }
     }),
   ],
-  session: {
-    strategy: 'jwt', //加密后的jwt会存储在cookie中
-    maxAge:7*24*60*60 //a week
-  },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
+    session: async ({ session, token, user }) => {
+      if (session?.user) {
+        session.user.id=user.id
       }
-      return token
-    },
-    session: async ({ session, token }) => {
-      if (session?.user && token) {
-        const user = session.user as {id:string}
-        user.id = token.id as string
-      }
-      return session
-    },
+      return session      
+    }
   },
-  pages: {
-    signIn:'/login'
-  }
+  //session: {
+  //  strategy: 'database',
+  //  maxAge: 30 * 24 * 60 * 60,
+  //  updateAge: 24 * 60 * 60,
+  //  generateSessionToken() {
+  //    return randomUUID?.()??randomBytes(32).toString('hex')
+  //  }
+  //}
 }
 
 export default NextAuth(authOptions)
-

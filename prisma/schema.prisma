@@ -10,25 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model User {
-  id          String      @id @default(uuid())
-  email       String      @unique
-  password    String
-  name        String
-  phone       String
-  desc        String      @db.Text
-  level       Int         @default(0)
-  age         Int         @default(0)
-  birthday    DateTime    @default(now())
-  github      String?
-  avatar      String?     @default("avatar")
-  createdAt   DateTime    @default(now())
-  updateAt    DateTime?
-  Articles    Article[]
-  Comments    Comment[]
-  Likes       Like[]
-  Collections Collect[]
-  Attentions  Attention[]
+  id            String      @id @default(cuid())
+  name          String?
+  email         String?     @unique
+  emailVerified DateTime?
+  image         String?
+  profile       Profile?
+  accounts      Account[]
+  sessions      Session[]
+  articles      Article[]
+  likes         Like[]
+  collects      Collect[]
+  comments      Comment[]
+  attentions    Attention[]
+  userInfoId    Int
+  profileId     Int
+}
+
+model Profile {
+  id       Int       @id @default(autoincrement())
+  userId   String?   @unique
+  user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gender   Gender
+  age      Int
+  phone    String
+  birthday DateTime?
+  level    Int       @default(0)
 }
 
 model Article {
@@ -46,7 +94,7 @@ model Article {
   Comments     Comment[]
   Likes        Like[]
   Collections  Collect[]
-  User         User?     @relation(fields: [userId], references: [id])
+  user         User?     @relation(fields: [userId], references: [id])
   userId       String?
 }
 
@@ -66,7 +114,7 @@ model Tag {
 model Like {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
   Article   Article? @relation(fields: [articleId], references: [id])
   articleId String?
@@ -76,7 +124,7 @@ model Like {
 
 model Collect {
   createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   userId    String
   Article   Article  @relation(fields: [articleId], references: [id])
   articleId String
@@ -92,12 +140,12 @@ model Comment {
   createdAt DateTime @default(now())
   Article   Article? @relation(fields: [articleId], references: [id])
   articleId String?
-  User      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
 
 model Attention {
-  User       User   @relation(fields: [follower], references: [id])
+  user       User   @relation(fields: [follower], references: [id])
   follower   String
   followered String
 
