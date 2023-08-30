@@ -64,8 +64,6 @@ model User {
   collects      Collect[]
   comments      Comment[]
   attentions    Attention[]
-  userInfoId    Int
-  profileId     Int
 }
 
 model Profile {

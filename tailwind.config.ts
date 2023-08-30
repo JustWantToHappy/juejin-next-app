@@ -35,6 +35,10 @@ const config: Config = {
       'juejin-gray-1-3': '#e4e6eb',
       'juejin-gray-2': '#f2f3f5',
       'juejin-gray-3': '#f7f8fa',
+      //danger
+      'juejin-danger-1-normal': '#f64242',
+      'juejin-danger-2-deep': '#cb2634',
+      'juejin-danger-3-light':'#fff2ff',
       //other
       'juejin-nav-title': '#86909c',
       'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',

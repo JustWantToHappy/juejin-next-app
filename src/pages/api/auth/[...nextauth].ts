@@ -5,16 +5,12 @@ import GitHubProvider from 'next-auth/providers/github'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 export const authOptions: NextAuthOptions = {
-  //debug:isDev,
   adapter: PrismaAdapter(prisma),
   secret:process.env.SECRET,
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID??'',
       clientSecret: process.env.GITHUB_SECRET ?? '',
-      httpOptions: {
-        timeout:50000
-      }
     }),
   ],
   callbacks: {
