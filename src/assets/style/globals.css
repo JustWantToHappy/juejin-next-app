@@ -17,6 +17,7 @@
     --home-recommend-padding-x:20px;
     --layer-gap:1.5rem;
     --aside-top:2rem;
+    --catelogue-max-width:380px;
     --content-min-width:500px;
     --login-box-width:350px;
     --login-box-padding:1.5rem;
@@ -60,16 +61,10 @@
     background-size: 200% 100%;
     @apply animate-skeleton 
   }
-  
 }
 
+/* 用于复写tailwind内置样式 */
 @layer utilities{
-  /* 头部导航栏高度 */
-  .nav-height{
-    height:var(--nav-header-height);
-  }
-  .aside-top{
-    top:var(--aside-top);
-  }  
+  
 }
 

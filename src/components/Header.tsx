@@ -61,7 +61,7 @@ const Header = () => {
   return (
     <header
       style={{ top: `${header.close ? '-60px' : '0px'}` }}
-      className='w-full flex bg-juejin-layer-1 nav-height text-juejin-font-2 items-center pl-9  transition-top duration-300 fixed top-0 left-0 right-0 z-40'>
+      className='w-full flex bg-juejin-layer-1 h-[--nav-header-height] text-juejin-font-2 items-center pl-9  transition-top duration-300 fixed top-0 left-0 right-0 z-40'>
       <a>
         <Image src={JuejinSvg} alt='juejin' priority width='0' height='0' className='hidden sm:inline-block w-32 h-auto' />
         <Image src={JuejinSmallSvg} alt='juejin' priority width={35} className='inline-block sm:hidden' />
@@ -85,7 +85,7 @@ const Header = () => {
               key={nav.key === '' ? '/' : nav.key} href={nav.key === '' ? '/' : nav.key}
               locale='en'>
               <div
-                className={`mx-3 nav-height flex items-center justify-center hover:text-juejin-font-1 relative after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-juejin-brand-1-normal after:opacity-0 hover:after:opacity-100 ${router.pathname === '/' + nav.key ? 'after:opacity-100' : ''}`}>
+                className={`mx-3 h-[--nav-header-height] flex items-center justify-center hover:text-juejin-font-1 relative after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-juejin-brand-1-normal after:opacity-0 hover:after:opacity-100 ${router.pathname === '/' + nav.key ? 'after:opacity-100' : ''}`}>
                 {nav.name}
               </div>
             </Link>)}

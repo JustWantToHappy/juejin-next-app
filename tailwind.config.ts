@@ -13,7 +13,16 @@ const config: Config = {
       'juejin-font-2': '#515767',
       'juejin-font-3': '#8a919f',
       'juejin-font-4': '#c2c8d1',
-      'juejin-font-primary':'#1d2129',
+      'juejin-font-primary': '#1d2129',
+      //makedown相关
+      'juejin-md-font':'#595959',
+      'juejin-md-heading': '#135ce0',
+      'juejin-md-spcial-font':' #036aca',
+      'juejin-md-quote-bg':' #fff9f9',
+      'juejin-md-quote-font':' #666',
+      'juejin-md-quote-left': '#b2aec5',
+      'juejin-md-code-bg': '#fff5f5',
+      'juejin-md-code-font': '#ff502c',
       //按钮相关
       'juejin-brand-1-normal': '#1e80ff',
       'juejin-brand-2-hover': '#1171ee',

@@ -63,7 +63,7 @@ const NavTags = () => {
   return (
     <nav
       ref={navRef}
-      className={`min-w-[--home-tag-width] text-lg text-juejin-font-2 p-2 layer hidden xl:block sticky overflow-auto ${close ? 'aside-top' : ' top-[80px]'}`}>
+      className={`min-w-[--home-tag-width] text-lg text-juejin-font-2 p-2 layer hidden xl:block sticky overflow-auto ${close ? 'top-[--aside-top]' : ' top-[80px]'}`}>
       <div className='flex flex-col justify-between gap-y-[1px]'>
         {tags?.map(tag => <Link
           key={tag.key}
