@@ -1,21 +1,26 @@
 import React from 'react'
 import Header from '../Header'
 import SignIn from '../SignIn'
+import { useRouter } from 'next/router'
 import { useThrottle } from '@/hooks'
 import FloatButtons from '../FloatButtons'
 import { SessionProvider } from 'next-auth/react'
 import { headerStore, loginModal } from '@/store'
 
 const BasicLayout: React.FC<React.PropsWithChildren & { session: any }> = (props) => {
-  const { onClose, onOpen } = headerStore()
   const { open } = loginModal()
-  const [showUpIcon, setShowUpIcon] = React.useState(false)
+  const router = useRouter()
+  const { onClose, onOpen } = headerStore()
+  const [showUpIcon, setShowUpIcon] = React.useState(router.pathname === '/editor')
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>()
   const prevStopScrollTopRef = React.useRef<number>(0)
 
   const handleScroll = useThrottle(() => {
-    const scrollTop = window.scrollY
+    if (router.pathname === '/editor') {
+      return
+    }
 
+    const scrollTop = window.scrollY
     scrollTop > 100 ? setShowUpIcon(true) : setShowUpIcon(false)
 
     if (scrollTop - prevStopScrollTopRef.current > 100) onClose()

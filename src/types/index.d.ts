@@ -8,7 +8,7 @@ export type Tag = {
 }
 
 export type EntryType = {
-  id: number;
+  id: number|string;
   title: string;
   likes: number;
   tags: Tag[]
@@ -17,3 +17,4 @@ export type EntryType = {
   author: string;
   content: string;
 }
+

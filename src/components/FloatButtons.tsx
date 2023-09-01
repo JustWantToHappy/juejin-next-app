@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { AiOutlineVerticalAlignTop } from 'react-icons/ai'
-import { BiSolidCommentMinus} from 'react-icons/bi'
+import { BiSolidCommentMinus } from 'react-icons/bi'
 interface Props {
   showUpIcon: boolean
 }
@@ -10,6 +10,7 @@ const FloatButtons: React.FC<Props> = ({ showUpIcon }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0 })
   }
+
 
   return (
     <div className='fixed bottom-5 z-40 right-4 text-2xl text-juejin-font-3 flex flex-col gap-y-4'>

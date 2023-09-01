@@ -6,57 +6,58 @@ import type { Tag } from '@/types'
 //import { Get } from '@/utils'
 //import useSwr, { Fetcher } from 'swr'
 
+export const tags = [
+  {
+    key: 'following',
+    name: '关注'
+  },
+  {
+    key: 'recommended',
+    name: '综合'
+  },
+  {
+    key: 'backend',
+    name: '后端'
+  },
+  {
+    key: 'frontend',
+    name: '前端'
+  },
+  {
+    key: 'andriod',
+    name: 'Andriod'
+  },
+  {
+    key: 'ios',
+    name: 'iOS'
+  },
+  {
+    key: 'ai',
+    name: '人工智能'
+  },
+  {
+    key: 'freebie',
+    name: '开发工具'
+  },
+  {
+    key: 'career',
+    name: '代码人生'
+  },
+  {
+    key: 'article',
+    name: '阅读'
+  },
+  {
+    key: 'articles',
+    name: '排行榜'
+  },
+]
+
 const NavTags = () => {
   const { close } = headerStore()
   const router = useRouter()
   const navRef = React.useRef<HTMLElement>(null)
   const [active, setActive] = React.useState('recommended')
-  const [tags] = React.useState<Tag[]>([
-    {
-      key: 'following',
-      name: '关注'
-    },
-    {
-      key: 'recommended',
-      name: '综合'
-    },
-    {
-      key: 'backend',
-      name: '后端'
-    },
-    {
-      key: 'frontend',
-      name: '前端'
-    },
-    {
-      key: 'andriod',
-      name: 'Andriod'
-    },
-    {
-      key: 'ios',
-      name: 'iOS'
-    },
-    {
-      key: 'ai',
-      name: '人工智能'
-    },
-    {
-      key: 'freebie',
-      name: '开发工具'
-    },
-    {
-      key: 'career',
-      name: '代码人生'
-    },
-    {
-      key: 'article',
-      name: '阅读'
-    },
-    {
-      key: 'articles',
-      name: '排行榜'
-    },
-  ])
   //const fetcher: Fetcher<Tag[]> = (url: string) => Get<Tag[]>(url)
   //const { data } = useSwr('/api/tag', fetcher)
 

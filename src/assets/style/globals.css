@@ -7,7 +7,7 @@
     box-sizing: border-box;
   }
   :root{
-    @apply text-sm;
+    @apply  text-sm;
     --nav-header-height:60px;
     --home-tag-width:180px;
     --home-recommend-width:720px;
@@ -68,3 +68,14 @@
   
 }
 
+.ql-toolbar.ql-snow{
+  border:none !important;
+}
+
+.ql-editor{
+  border-bottom:0px !important;
+}
+
+.ql-container.ql-snow{
+  border-color: transparent !important;
+}

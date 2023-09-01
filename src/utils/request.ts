@@ -9,7 +9,7 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use((response) => {
   return response.data
-}, (err:AxiosError) => Promise.reject(err.response?.data))
+}, (err:AxiosError) => Promise.reject(err?.message||err?.code))
 
 export const Get = <T>(url: string, config?: AxiosRequestConfig) => axios.get<T>(url, config) as FetcherResponse<T>
 

@@ -51,6 +51,7 @@ const config: Config = {
       //other
       'juejin-nav-title': '#86909c',
       'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',
+      'transparent':'transparent'
     },
     extend: {
       //用于覆写tailiwind内置的样式，也可以添加自定义动画，过渡效果等

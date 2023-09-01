@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === Method.POST) {
     const nav = await prisma.tag.create({data:req.body})
     if (nav) {
-      res.status(200).end('success')
+    
     }
   }
 }

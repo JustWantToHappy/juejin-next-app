@@ -7,12 +7,10 @@ import { useForm, SubmitErrorHandler } from 'react-hook-form'
 const Admin = () => {
   const fetcher: Fetcher<{ name: string }> = (url: string) => Get<{ name: string }>(url)
   const { data, error, isLoading } = useSwr('/api/tag', fetcher)
-  console.info(data)
   const { register, setValue, handleSubmit, formState } = useForm<{ key: string, name: string }>()
   const onSubmit = handleSubmit(data => {
     Post('/api/tag', data).then(console.info).catch(console.info)
   })
-
 
   return (
     <div>

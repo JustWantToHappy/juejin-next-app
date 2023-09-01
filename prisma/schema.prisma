@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 enum Gender {
   MALE
   FEMALE
@@ -72,6 +73,7 @@ model Profile {
   user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   gender   Gender
   age      Int
+  
   phone    String
   birthday DateTime?
   level    Int       @default(0)
