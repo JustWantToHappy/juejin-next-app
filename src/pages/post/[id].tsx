@@ -49,7 +49,7 @@ const Post = (props: ArticleType) => {
             <Image width='100' height='40' className='rounded-full w-14 h-14 object-cover' src='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' alt='头像' />
             <div className='flex flex-col gap-y-2'>
               <span>JustWantToHappy</span>
-              <span>学生</span>
+              <span className='text-juejin-font-3'>学生</span>
             </div>
           </div>
           <div className={` py-4 pl-3 mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>

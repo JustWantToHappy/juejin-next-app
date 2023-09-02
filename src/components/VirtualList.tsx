@@ -9,7 +9,7 @@ interface Props {
   wideSkeleton?: boolean
 }
 
-const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components, wideSkeleton }) => {
+const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components, wideSkeleton=false }) => {
   const heightsRef = React.useRef<number[]>([])
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
@@ -90,7 +90,7 @@ const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, co
   }
 
   if (!components.length) {
-    return wideSkeleton ? <div className={`px-[--home-recommend-padding-x]`}><Skeleton /></div> : <Skeleton />
+    return wideSkeleton ? <Skeleton /> : <div style={{padding:'0 20px'}}><Skeleton /></div>
   }
 
   return (<div

@@ -41,7 +41,7 @@ const Home = (props: { data: string }) => {
         <title>稀土掘金</title>
       </Head>
       <div>
-        <VirtualList components={listData} />
+        <VirtualList components={listData}  />
       </div>
     </div>
   )

@@ -18,3 +18,8 @@ export type EntryType = {
   content: string;
 }
 
+export type CatelogueType = {
+  index: number;
+  title: string;
+  children?:CatelogueType[]
+}
