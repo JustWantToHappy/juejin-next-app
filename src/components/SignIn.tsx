@@ -59,7 +59,7 @@ const SignIn = () => {
               密码不能为空
             </small>
           </div>
-          <button className=' mt-4 btn bg-juejin-brand-1-normal text-juejin-layer-1 w-full hover:bg-juejin-brand-2-hover'>
+          <button className='btn-primary w-full'>
             登录
           </button>
           <div className='mt-7 leading-8 h-8'>

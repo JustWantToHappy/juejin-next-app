@@ -6,8 +6,9 @@ import { headerStore } from '@/store'
 import Comment from '@/components/Comment'
 import Article from '@/components/Article'
 import Catelogue from '@/components/Catelogue'
-import type { GetStaticProps, GetStaticPaths } from 'next'
+import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
+import type { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`${process.env.PUBLIC_URL}/api/article`)
@@ -16,18 +17,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths: paths ?? [], fallback: false }
 }
 
+
 export const getStaticProps: GetStaticProps = async (props) => {
   let data = null
   if (props.params?.id) {
     const res = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
     data = await res.json()
   }
-  return { props: { data } }
+  return { props: data }
 }
 
-const Post = (props: any) => {
+const Post = (props: ArticleType) => {
   const { close } = headerStore()
-
+  
   return (
     <ArticleLayout>
       <Head>
@@ -36,9 +38,9 @@ const Post = (props: any) => {
       <div className='flex sm:ml-[90px] sm:mr-8  gap-x-[--layer-gap]'>
         <div className='flex-1'>
           <div className='layer p-10 mb-[--layer-gap]'>
-            <Article />
+            <Article {...props} />
           </div>
-          <div className='layer mt-3'>
+          <div className='layer mt-3 mb-8 px-10 py-4'>
             <Comment />
           </div>
         </div>

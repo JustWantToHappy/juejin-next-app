@@ -4,11 +4,12 @@ import VirtualItem from './VirtualItem'
 
 interface Props {
   preHeight?: number//预测列表项高度
-  extraRenderCount?: number;//额外渲染的列表项个数
+  extraRenderCount?: number//额外渲染的列表项个数
   components: React.ReactElement[]
+  wideSkeleton?: boolean
 }
 
-const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components }) => {
+const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components, wideSkeleton }) => {
   const heightsRef = React.useRef<number[]>([])
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
@@ -73,7 +74,7 @@ const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, co
   const getCurrentRenderItems = () => {
     const height = tops[tops.length - 1] ?? 0
     return <>
-      <div style={{ width: '100%', height: height + 'px', willChange: 'height' }}>
+      <div style={{ width: '100%', height: height + 'px' }}>
         {components.slice(startIndex, endIndex).map((component) => {
           const index = component.props['data-index']
           return <VirtualItem
@@ -89,7 +90,7 @@ const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, co
   }
 
   if (!components.length) {
-    return <div className={`px-[--home-recommend-padding-x]`}><Skeleton /></div>
+    return wideSkeleton ? <div className={`px-[--home-recommend-padding-x]`}><Skeleton /></div> : <Skeleton />
   }
 
   return (<div

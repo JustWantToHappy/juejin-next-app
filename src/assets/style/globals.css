@@ -25,6 +25,12 @@
   body{
     @apply bg-juejin-bg;
   }
+  textarea{
+    @apply outline-none border border-transparent;
+  }
+  [contenteditable]{
+    @apply outline-none;
+  }
   input{
     @apply  rounded focus:border-juejin-brand-2-hover border border-juejin-layer-1 outline-none;
   }
@@ -34,6 +40,13 @@
   .btn{
     @apply pl-4 pr-4 h-10 rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
   }
+  .btn-primary{
+    @apply btn text-juejin-gray-0 bg-juejin-brand-1-normal hover:bg-juejin-brand-2-hover;
+  }
+  .btn-secondary{
+    @apply btn text-juejin-brand-1-normal border border-juejin-brand-4-disable rounded-md bg-juejin-brand-5-light;
+  }
+  
   /* 布局块 */
   .layer{
     @apply bg-juejin-layer-1 rounded-sm;

@@ -1,7 +1,9 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { Post, Get } from '@/utils'
+import Head from 'next/head'
 import 'react-quill/dist/quill.snow.css'
+import ReactQuill from 'react-quill'
 import { type Tag } from '@/types'
 import { tags } from '@/components/NavTags'
 import { useSession } from 'next-auth/react'
@@ -19,6 +21,7 @@ const modules = {
 
 const Eidtor = () => {
   const session = useSession()
+  const editorRef = React.useRef<any>(null)
   const [show, setShow] = React.useState(false)
   const [desc, setDesc] = React.useState('')
   const [title, setTitle] = React.useState('')
@@ -41,7 +44,7 @@ const Eidtor = () => {
       alert('至少选择一个标签')
       return
     }
-    console.info(content)
+
     if ((await Post('/api/article', { desc, content, title })) === 'success') {
       alert('发布文章成功!')
     } else {
@@ -65,6 +68,9 @@ const Eidtor = () => {
 
   return (
     <div className=' -translate-y-6'>
+      <Head>
+        <title>写文章&nbsp;-&nbsp;掘金</title>
+      </Head>
       <div className='flex  border border-juejin-gray-1-1'>
         <input
           onChange={e => setTitle(e.target.value)}
@@ -98,17 +104,17 @@ const Eidtor = () => {
             <div className='text-right mt-3'>
               <button
                 onClick={() => setShow(false)}
-                className='btn border-juejin-brand-1-normal border text-juejin-brand-1-normal mr-4'>取消</button>
+                className=' border-juejin-brand-1-normal border text-juejin-brand-1-normal mr-4'>取消</button>
               <button
                 onClick={ConfirmPublish}
-                className='btn bg-juejin-brand-1-normal text-juejin-layer-1 hover:bg-juejin-brand-2-hover'>确定发布</button>
+                className=' bg-juejin-brand-1-normal text-juejin-layer-1 hover:bg-juejin-brand-2-hover'>确定发布</button>
             </div>
           </div>
         </div>
       </div>
       <DynamicReactQuill
         theme='snow'
-        onChange={content => setContent(content)}
+        onChange={str => setContent(str)}
         placeholder='请输入文章内容'
         modules={modules} />
     </div>

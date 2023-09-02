@@ -94,7 +94,7 @@ const Header = () => {
             <ul className='flex'>
               <li className='flex overflow-hidden gap-x-6'>
                 <InputSearch />
-                <button className='btn bg-juejin-brand-1-normal text-juejin-layer-1 pr-8 hover:bg-juejin-brand-2-hover hidden md:inline-block'>
+                <button className='btn-primary'>
                   创作者中心
                 </button>
               </li>
@@ -105,7 +105,7 @@ const Header = () => {
               <li className='ml-6 hidden sm:block group relative'>
                 <button
                   onClick={() => onOpen()}
-                  className='btn text-juejin-brand-1-normal border border-juejin-brand-4-disable rounded-md bg-juejin-brand-5-light'>
+                  className='btn-secondary'>
                   登录&nbsp;|&nbsp;注册
                 </button>
               </li>
