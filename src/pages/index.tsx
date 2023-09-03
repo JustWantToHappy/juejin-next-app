@@ -13,7 +13,7 @@ const Home = (props: { data: string }) => {
   const [listData, setListData] = React.useState<React.ReactElement[]>([])
 
   React.useEffect(() => {
-    setListData(() => Array(1000).fill(1).map((_, index) => <Entry id={index%2===1?'13815bc6-f4ba-4b21-9b83-174d6183583b':'f635ab58-56f0-4661-af7f-b984384f0229'} key={index} data-index={index} title='🔥小册上新 | TypeScript 框架开发实战' likes={50} tags={[{ key: '前端', name: '前端' }, { key: '后端', name: '后端' }]} readCount={50} author='掘金小册' content='学习服务端 Web 框架最好的方式，就是从头写一个 Web 框架。与其按部就班的学习，开发框架本身更高效！' image='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' />))
+    setListData(() => Array(1000).fill(1).map((_, index) => <Entry id={index % 2 === 1 ? '13815bc6-f4ba-4b21-9b83-174d6183583b' : 'f635ab58-56f0-4661-af7f-b984384f0229'} key={index} data-index={index} title='🔥小册上新 | TypeScript 框架开发实战' likes={50} tags={[{ key: '前端', name: '前端' }, { key: '后端', name: '后端' }]} readCount={50} author='掘金小册' content='学习服务端 Web 框架最好的方式，就是从头写一个 Web 框架。与其按部就班的学习，开发框架本身更高效！' image='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' />))
   }, [router])
 
   React.useEffect(() => {
@@ -41,7 +41,7 @@ const Home = (props: { data: string }) => {
         <title>稀土掘金</title>
       </Head>
       <div>
-        <VirtualList components={listData}  />
+        <VirtualList components={listData} extraRenderCount={10} />
       </div>
     </div>
   )

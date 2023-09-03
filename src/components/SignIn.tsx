@@ -59,7 +59,7 @@ const SignIn = () => {
               密码不能为空
             </small>
           </div>
-          <button className='btn-primary w-full'>
+          <button className='btn-primary w-full h-10'>
             登录
           </button>
           <div className='mt-7 leading-8 h-8'>

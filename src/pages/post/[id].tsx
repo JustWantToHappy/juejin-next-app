@@ -1,6 +1,5 @@
 import React from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
 import Image from 'next/image'
 import { headerStore } from '@/store'
 import Comment from '@/components/Comment'
@@ -18,7 +17,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths: paths ?? [], fallback: false }
 }
 
-
 export const getStaticProps: GetStaticProps = async (props) => {
   let data = null
   if (props.params?.id) {
@@ -30,24 +28,11 @@ export const getStaticProps: GetStaticProps = async (props) => {
 
 const Post = (props: ArticleType) => {
   const { close } = headerStore()
-  const [components, setComponents] = React.useState<React.ReactElement[]>([])
+  const [catelogue, setCatelogue] = React.useState<CatelogueType[]>([])
 
-  React.useEffect(() => {
-    //const reg = /^[h][1-6]$/i
-    const parser = new DOMParser()
-    const catelogue: CatelogueType[] = []
-    //解析html字符串
-    const parsedHtml = parser.parseFromString(props.content, 'text/html')
-    const elements = Array.from(parsedHtml.body.children)
-    const components = elements.map((ele, index) => <div
-      key={index}
-      data-index={index}
-      dangerouslySetInnerHTML={{ __html: ele.outerHTML }}>
-    </div>)
-    setComponents(components)//虚拟列表外部数据源
-  }, [props.content])
+  const getCatelogue=React.useCallback((catelogue:CatelogueType[])=>setCatelogue(catelogue),[])
 
-  return (
+  return (  
     <ArticleLayout>
       <Head>
         <title>{props.title + ' - 掘金'}</title>
@@ -55,7 +40,7 @@ const Post = (props: ArticleType) => {
       <div className='flex sm:ml-[90px] sm:mr-8  gap-x-[--layer-gap]'>
         <div className='flex-1'>
           <div className='layer p-10 mb-[--layer-gap]'>
-            <Article {...props} components={components} />
+            <Article {...props} getCatelogue={getCatelogue} />
           </div>
           <div className='layer mt-3 mb-8 px-10 py-4'>
             <Comment />
@@ -70,7 +55,7 @@ const Post = (props: ArticleType) => {
             </div>
           </div>
           <div className={` pt-4  mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
-            <Catelogue />
+            <Catelogue catelogue={catelogue} />
           </div>
         </div>
       </div>

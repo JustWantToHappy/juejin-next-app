@@ -19,6 +19,7 @@ export type EntryType = {
 }
 
 export type CatelogueType = {
+  tag: string;
   index: number;
   title: string;
   children?:CatelogueType[]

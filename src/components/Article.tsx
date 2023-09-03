@@ -1,29 +1,36 @@
 import Link from 'next/link'
 import React from 'react'
-import Image from 'next/image'
-import VirtualList from './VirtualList'
 import { AiOutlineEye } from 'react-icons/ai'
-import { parseTitleFromTree } from '@/utils'
+import { generateCatelogue } from '@/utils'
+import type { CatelogueType } from '@/types'
 import type { Article as ArticleType } from 'prisma/prisma-client'
 
-const Article: React.FC<Partial<ArticleType> & { components: React.ReactElement[] }> = ({ title, createdAt, content, components }) => {
+type Props = ArticleType & {
+  getCatelogue: (catelogue: CatelogueType[]) => void
+}
+
+const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) => {
   const markdownRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    //监听文档滚动，实时高亮标题(二分查找当前距离窗口顶部最近的标题且标题的top要大于等于scrollTop)
-    const handleScroll = () => {
-      //获取dom实例，递归dom树，通过dom.top进行判断
+    if (markdownRef.current) {
+      const catelogue: CatelogueType[] = []
+      markdownRef.current.innerHTML = content as string
+      const reg = /^h[1-6]$/i
+      Array.from(markdownRef.current.children).reduce((index, ele) => {
+        if (reg.test(ele.tagName)) {
+          ele.id = `heading-${index}`
+          return index + 1
+        }
+        return index
+      }, 0)
+      generateCatelogue(Array.from(markdownRef.current.children), catelogue)
+      getCatelogue(catelogue)
     }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return function () {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  }, [content, getCatelogue])
 
   return (
-    <article>
+    <article >
       <meta itemProp='headline' content={title} />
       <meta itemProp='keywords' content='文章类型' />
       <meta itemProp='datePublished' content={String(createdAt)} />
@@ -48,13 +55,9 @@ const Article: React.FC<Partial<ArticleType> & { components: React.ReactElement[
       <div
         ref={markdownRef}
         className=' mt-8  markdown-body'>
-        {/*<p>阿宝哥第一次使用 TypeScript 是在 Angular 2.x 项目中，那时候 TypeScript 还没有进入大众的视野。然而现在学习 TypeScript 的小伙伴越来越多了，本文阿宝哥将从 16 个方面入手，带你一步步学习 TypeScript，感兴趣的小伙伴不要错过。。</p>
-        <Image src='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' alt='image' width='10000' height='0' priority />*/}
-        <VirtualList components={components} wideSkeleton extraRenderCount={2} />
-        {/*<VirtualList components={components} wideSkeleton extraRenderCount={10} />*/}
       </div>
     </article>
   )
 }
 
-export default Article
+export default React.memo(Article)
