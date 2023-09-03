@@ -6,9 +6,10 @@ import { headerStore } from '@/store'
 import Comment from '@/components/Comment'
 import Article from '@/components/Article'
 import Catelogue from '@/components/Catelogue'
+import type { CatelogueType } from '@/types'
 import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
-import type { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from 'next'
+import type { GetStaticProps, GetStaticPaths } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`${process.env.PUBLIC_URL}/api/article`)
@@ -29,16 +30,32 @@ export const getStaticProps: GetStaticProps = async (props) => {
 
 const Post = (props: ArticleType) => {
   const { close } = headerStore()
-  
+  const [components, setComponents] = React.useState<React.ReactElement[]>([])
+
+  React.useEffect(() => {
+    //const reg = /^[h][1-6]$/i
+    const parser = new DOMParser()
+    const catelogue: CatelogueType[] = []
+    //解析html字符串
+    const parsedHtml = parser.parseFromString(props.content, 'text/html')
+    const elements = Array.from(parsedHtml.body.children)
+    const components = elements.map((ele, index) => <div
+      key={index}
+      data-index={index}
+      dangerouslySetInnerHTML={{ __html: ele.outerHTML }}>
+    </div>)
+    setComponents(components)//虚拟列表外部数据源
+  }, [props.content])
+
   return (
     <ArticleLayout>
       <Head>
-        <title>文章页面</title>
+        <title>{props.title + ' - 掘金'}</title>
       </Head>
       <div className='flex sm:ml-[90px] sm:mr-8  gap-x-[--layer-gap]'>
         <div className='flex-1'>
           <div className='layer p-10 mb-[--layer-gap]'>
-            <Article {...props} />
+            <Article {...props} components={components} />
           </div>
           <div className='layer mt-3 mb-8 px-10 py-4'>
             <Comment />
@@ -52,7 +69,7 @@ const Post = (props: ArticleType) => {
               <span className='text-juejin-font-3'>学生</span>
             </div>
           </div>
-          <div className={` py-4 pl-3 mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
+          <div className={` pt-4  mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
             <Catelogue />
           </div>
         </div>

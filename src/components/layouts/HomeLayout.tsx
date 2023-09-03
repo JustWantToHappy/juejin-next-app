@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 
 const HomeLayout: React.FC<React.PropsWithChildren> = (props) => {
   const router = useRouter()
-  const [active, setActive] = React.useState(0)
 
   return (
     <div className=' px-10 flex items-start gap-x-[--layer-gap] '>

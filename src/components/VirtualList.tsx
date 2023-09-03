@@ -9,12 +9,11 @@ interface Props {
   wideSkeleton?: boolean
 }
 
-const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components, wideSkeleton=false }) => {
+const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, components, wideSkeleton = false }) => {
   const heightsRef = React.useRef<number[]>([])
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
-
   const [scrollTop, setScrollTop] = React.useState(0)
   const [tops, setTops] = React.useState<number[]>([])
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   const startIndex = React.useMemo(() => {
     let left = 0, right = tops.length
@@ -71,30 +70,29 @@ const VirtualList: React.FC<Props> = ({ preHeight = 50, extraRenderCount = 4, co
     }
   }, [])
 
+
   const getCurrentRenderItems = () => {
     const height = tops[tops.length - 1] ?? 0
-    return <>
-      <div style={{ width: '100%', height: height + 'px' }}>
-        {components.slice(startIndex, endIndex).map((component) => {
-          const index = component.props['data-index']
-          return <VirtualItem
-            key={component.key}
-            setHeight={setVritualItemHeight}
-            style={{ position: 'absolute', width: '100%', top: `${tops[index]}px`, willChange: 'top' }}
-            index={index}>
-            {component}
-          </VirtualItem>
-        })}
-      </div>
-    </>
+    return (<div style={{ width: '100%', height: height + 'px' }}>
+      {components.slice(startIndex, endIndex).map((component) => {
+        const index = component.props['data-index']
+        return <VirtualItem
+          key={component.key}
+          setHeight={setVritualItemHeight}
+          style={{ position: 'absolute', width: '100%', top: `${tops[index]}px`, willChange: 'top' }}
+          index={index}>
+          {component}
+        </VirtualItem>
+      })}
+    </div>)
   }
 
   if (!components.length) {
-    return wideSkeleton ? <Skeleton /> : <div style={{padding:'0 20px'}}><Skeleton /></div>
+    return wideSkeleton ? <Skeleton /> : <div style={{ padding: '0 20px' }}><Skeleton /></div>
   }
 
   return (<div
-    ref={scrollContainerRef}
+    ref={containerRef}
     className={`w-full relative`}>
     {getCurrentRenderItems()}
   </div>)
