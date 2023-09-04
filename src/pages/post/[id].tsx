@@ -28,11 +28,15 @@ export const getStaticProps: GetStaticProps = async (props) => {
 
 const Post = (props: ArticleType) => {
   const { close } = headerStore()
+  const markdownRef = React.useRef<HTMLDivElement>()
   const [catelogue, setCatelogue] = React.useState<CatelogueType[]>([])
 
-  const getCatelogue=React.useCallback((catelogue:CatelogueType[])=>setCatelogue(catelogue),[])
+  const getCatelogue = React.useCallback((catelogue: CatelogueType[], markdownContainer: HTMLDivElement) => {
+    setCatelogue(catelogue)
+    markdownRef.current = markdownContainer
+  }, [])
 
-  return (  
+  return (
     <ArticleLayout>
       <Head>
         <title>{props.title + ' - 掘金'}</title>
@@ -55,7 +59,7 @@ const Post = (props: ArticleType) => {
             </div>
           </div>
           <div className={` pt-4  mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
-            <Catelogue catelogue={catelogue} />
+            <Catelogue catelogue={catelogue} markdownContainer={markdownRef.current} smoothScroll />
           </div>
         </div>
       </div>

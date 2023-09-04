@@ -5,20 +5,46 @@ type Props = {
   active?: number
   catelogue: CatelogueType[]
   smoothScroll?: boolean
+  markdownContainer: HTMLDivElement | undefined
 }
 
-const Catelogue: React.FC<Props> = ({ active = -1, catelogue, smoothScroll = false }) => {
-  const handleClickCatelogue = (event: React.MouseEvent) => {
+const Catelogue: React.FC<Props> = ({ active = -1, catelogue, smoothScroll = false, markdownContainer }) => {
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>()
+  const hashRef = React.useRef<string>('')
+
+  const originClick = (event: React.MouseEvent) => {
     event.preventDefault()
-    const hash = (event.target as HTMLAnchorElement)?.hash ?? '#heading'
-    const title = document.querySelector(hash) as HTMLElement
-    if (title) {
-      window.scrollTo({ top: title.offsetTop - 70, behavior: 'smooth' })
-      setTimeout(() => {
-        window.location.hash = hash
-      }, 300)
+    if (markdownContainer) {
     }
   }
+
+  const handleClickCatelogue = (event: React.MouseEvent) => {
+    event.preventDefault()
+    if (markdownContainer) {
+      const hash = (event.target as HTMLAnchorElement)?.hash ?? ''
+      const title = markdownContainer.querySelector(`[data-id='${hash.slice(1)}']`) as HTMLElement
+      hashRef.current = hash
+      console.info(title.offsetTop, 'test')
+      if (title) {
+        window.scrollTo({ top: title.offsetTop - 70, behavior: smoothScroll ? 'smooth' : 'auto' })
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (timerRef.current || hashRef.current === '') clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => {
+        window.location.hash = hashRef.current
+      }, 300)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return function () {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const generateCatelogueTree = (catelogue: CatelogueType[], level: number) => {
     return (
@@ -32,7 +58,7 @@ const Catelogue: React.FC<Props> = ({ active = -1, catelogue, smoothScroll = fal
               <a
                 title={item.title}
                 href={`#heading-${item.index}`}
-                onClick={e => e.preventDefault()}
+                onClick={originClick}
                 style={active === item.index ? { color: '#1171ee' } : {}}
                 className='ml-3 group-hover:text-juejin-brand-2-hover block w-full'>{item.title}</a>
             </li>

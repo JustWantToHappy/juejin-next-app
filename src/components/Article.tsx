@@ -6,7 +6,7 @@ import type { CatelogueType } from '@/types'
 import type { Article as ArticleType } from 'prisma/prisma-client'
 
 type Props = ArticleType & {
-  getCatelogue: (catelogue: CatelogueType[]) => void
+  getCatelogue: (catelogue: CatelogueType[], container: HTMLDivElement) => void
 }
 
 const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) => {
@@ -19,13 +19,13 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) =
       const reg = /^h[1-6]$/i
       Array.from(markdownRef.current.children).reduce((index, ele) => {
         if (reg.test(ele.tagName)) {
-          ele.id = `heading-${index}`
+          ele.setAttribute('data-id', `heading-${index}`)
           return index + 1
         }
         return index
       }, 0)
       generateCatelogue(Array.from(markdownRef.current.children), catelogue)
-      getCatelogue(catelogue)
+      getCatelogue(catelogue, markdownRef.current)
     }
   }, [content, getCatelogue])
 
