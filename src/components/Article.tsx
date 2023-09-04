@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
-import { generateCatelogue } from '@/utils'
 import type { CatelogueType } from '@/types'
+import { generateCatelogue, isHeadingEle } from '@/utils'
 import type { Article as ArticleType } from 'prisma/prisma-client'
 
 type Props = ArticleType & {
@@ -16,9 +16,8 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) =
     if (markdownRef.current) {
       const catelogue: CatelogueType[] = []
       markdownRef.current.innerHTML = content as string
-      const reg = /^h[1-6]$/i
       Array.from(markdownRef.current.children).reduce((index, ele) => {
-        if (reg.test(ele.tagName)) {
+        if (isHeadingEle(ele.tagName)) {
           ele.setAttribute('data-id', `heading-${index}`)
           return index + 1
         }

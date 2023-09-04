@@ -1,16 +1,17 @@
 import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { headerStore } from '@/store'
 import { useRouter } from 'next/router'
+import { useDebouce } from '@/hooks'
+import { headerStore } from '@/store'
 import Comment from '@/components/Comment'
 import Article from '@/components/Article'
 import Catelogue from '@/components/Catelogue'
 import type { CatelogueType } from '@/types'
-import { isHeadingEle, getElementOffsetTop } from '@/utils'
 import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
 import type { GetStaticProps, GetStaticPaths } from 'next'
+import { isHeadingEle, getElementTopOffset } from '@/utils'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`${process.env.PUBLIC_URL}/api/article`)
@@ -47,32 +48,38 @@ const Post = (props: ArticleType) => {
     Array.from(markdownContainer.children).map(ele => {
       if (isHeadingEle(ele.tagName)) {
         const id = ele.getAttribute('data-id')
-        const offsetTop = getElementOffsetTop(ele as HTMLElement)
+        const offsetTop = getElementTopOffset(ele as HTMLHeadElement)
         positions.push({ id: id || '', offsetTop })
       }
     })
     positionsRef.current = positions
   }, [])
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY
-      const positions = positionsRef.current
-      if (markdownRef.current && positions) {
-        for (let i = 0; i < positions.length; i++) {
-          if (positions[i].offsetTop - 70 >= offset) {
-            window.location.hash = `#${positions[i].id}`
-            break
-          }
+  const handleScroll = useDebouce(() => {
+    const offset = window.scrollY
+    const positions = positionsRef.current
+    if (markdownRef.current && positions) {
+      let ans = -1
+      for (let i = 0; i < positions.length; i++) {
+        const diff = positions[i].offsetTop - offset
+        if (diff <= 60) {
+          ans = i
+        } else {
+          break
         }
       }
+      if (~ans) {
+        router.push(`#${positions[ans].id}`)
+      }
     }
+  }, 50)
 
+  React.useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     return function () {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [handleScroll])
 
   return (
     <ArticleLayout>

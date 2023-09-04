@@ -5,6 +5,21 @@ const isHeadingEle = (tagName: string) => {
   return reg.test(tagName)
 }
 
+const parseFromHashURL = (hashURL: string) => {
+  const reg = /^.*heading-(\s)*/
+  return parseInt(hashURL.replace(reg, ''))
+}
+
+
+const getElementTopOffset = (element: HTMLElement) => {
+  let offsetTop=0
+  while (element) {
+    offsetTop+=element.offsetTop
+    element=element.offsetParent as HTMLElement
+  }
+  return offsetTop
+}
+
 const generateCatelogue= (nodes:Element[],catelogue:CatelogueType[]) => {
   let index=0
   for (let i = 0; i < nodes.length; i++){
@@ -22,13 +37,5 @@ const generateCatelogue= (nodes:Element[],catelogue:CatelogueType[]) => {
   }
 }
 
-const getElementOffsetTop = (element:HTMLElement) => {
-  let offsetTop = 0
-  while (element) {
-    offsetTop+=element.offsetTop
-    element=element.offsetParent as HTMLElement
-  }
-  return offsetTop
-}
 
-export {generateCatelogue,getElementOffsetTop,isHeadingEle}
+export {generateCatelogue,isHeadingEle,getElementTopOffset,parseFromHashURL}
