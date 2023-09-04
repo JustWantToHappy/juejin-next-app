@@ -2,10 +2,12 @@ import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { headerStore } from '@/store'
+import { useRouter } from 'next/router'
 import Comment from '@/components/Comment'
 import Article from '@/components/Article'
 import Catelogue from '@/components/Catelogue'
 import type { CatelogueType } from '@/types'
+import { isHeadingEle, getElementOffsetTop } from '@/utils'
 import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
 import type { GetStaticProps, GetStaticPaths } from 'next'
@@ -26,14 +28,50 @@ export const getStaticProps: GetStaticProps = async (props) => {
   return { props: data }
 }
 
+type Position = {
+  id: string
+  offsetTop: number
+}
+
 const Post = (props: ArticleType) => {
   const { close } = headerStore()
+  const router = useRouter()
+  const positionsRef = React.useRef<Position[]>()
   const markdownRef = React.useRef<HTMLDivElement>()
   const [catelogue, setCatelogue] = React.useState<CatelogueType[]>([])
 
   const getCatelogue = React.useCallback((catelogue: CatelogueType[], markdownContainer: HTMLDivElement) => {
+    const positions: Position[] = []
     setCatelogue(catelogue)
     markdownRef.current = markdownContainer
+    Array.from(markdownContainer.children).map(ele => {
+      if (isHeadingEle(ele.tagName)) {
+        const id = ele.getAttribute('data-id')
+        const offsetTop = getElementOffsetTop(ele as HTMLElement)
+        positions.push({ id: id || '', offsetTop })
+      }
+    })
+    positionsRef.current = positions
+  }, [])
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY
+      const positions = positionsRef.current
+      if (markdownRef.current && positions) {
+        for (let i = 0; i < positions.length; i++) {
+          if (positions[i].offsetTop - 70 >= offset) {
+            window.location.hash = `#${positions[i].id}`
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return function () {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (

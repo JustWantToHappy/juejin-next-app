@@ -1,50 +1,34 @@
 import React from 'react'
+import { getElementOffsetTop } from '@/utils'
 import type { CatelogueType } from '@/types'
 
 type Props = {
-  active?: number
   catelogue: CatelogueType[]
   smoothScroll?: boolean
   markdownContainer: HTMLDivElement | undefined
 }
 
-const Catelogue: React.FC<Props> = ({ active = -1, catelogue, smoothScroll = false, markdownContainer }) => {
-  const timerRef = React.useRef<ReturnType<typeof setTimeout>>()
-  const hashRef = React.useRef<string>('')
+const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownContainer }) => {
+  const [active, setActive] = React.useState(-1)
 
   const originClick = (event: React.MouseEvent) => {
     event.preventDefault()
-    if (markdownContainer) {
-    }
   }
 
   const handleClickCatelogue = (event: React.MouseEvent) => {
     event.preventDefault()
     if (markdownContainer) {
+      const index = event.currentTarget.getAttribute('data-index')
       const hash = (event.target as HTMLAnchorElement)?.hash ?? ''
       const title = markdownContainer.querySelector(`[data-id='${hash.slice(1)}']`) as HTMLElement
-      hashRef.current = hash
-      console.info(title.offsetTop, 'test')
+      window.location.hash = hash
       if (title) {
-        window.scrollTo({ top: title.offsetTop - 70, behavior: smoothScroll ? 'smooth' : 'auto' })
+        const offsetTop = getElementOffsetTop(title)
+        window.scrollTo({ top: offsetTop - 70, behavior: smoothScroll ? 'smooth' : 'auto' })
       }
+      setActive(parseInt(index ?? '0'))
     }
   }
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (timerRef.current || hashRef.current === '') clearTimeout(timerRef.current)
-      timerRef.current = setTimeout(() => {
-        window.location.hash = hashRef.current
-      }, 300)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return function () {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   const generateCatelogueTree = (catelogue: CatelogueType[], level: number) => {
     return (
@@ -52,6 +36,7 @@ const Catelogue: React.FC<Props> = ({ active = -1, catelogue, smoothScroll = fal
         {catelogue.map((item) => (
           <React.Fragment key={item.index}>
             <li
+              data-index={item.index}
               onClick={handleClickCatelogue}
               style={{ paddingLeft: `${16 * level}px` }}
               className={`before:absolute before:w-[4px]  before:rounded-sm  before:h-4  before:top-1/2   before:bg-juejin-brand-1-normal before:-left-[0px] before:-translate-y-1/2 relative cursor-pointer group h-10 leading-10 ellipsis transition-all duration-300 ${active === item.index ? 'before:block' : 'before:hidden'}`}>
