@@ -38,13 +38,16 @@
 
 @layer components{
   .btn{
-    @apply pl-4 pr-4 h-full  rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
+    @apply pl-4 pr-4 py-2 h-full  rounded-sm relative after:absolute after:right-0  after:w-2 after:border-l after:border-juejin-gray-1-1 whitespace-nowrap;
   }
   .btn-primary{
     @apply btn text-juejin-gray-0 bg-juejin-brand-1-normal hover:bg-juejin-brand-2-hover;
   }
   .btn-secondary{
     @apply btn text-juejin-brand-1-normal border border-juejin-brand-4-disable rounded-md bg-juejin-brand-5-light;
+  }
+  .btn-text{
+    @apply  hover:text-juejin-brand-2-hover active:scale-95 duration-300 transition-all;
   }
   
   /* 布局块 */
@@ -61,6 +64,13 @@
     display: -moz-box;
     -moz-box-orient: vertical;
     box-orient: vertical;
+  }
+  /* tooltip箭头 */
+  .arrows{
+    @apply after:w-4 after:h-4 after:bg-juejin-layer-1 after:border after:border-t-juejin-gray-1-1 after:border-transparent after:border-l-juejin-gray-1-1 after:border-t after:absolute after:z-20 after:right-4 after:-top-2 after:rotate-45;
+  }
+  .arrows-center{
+    @apply arrows after:left-1/2;
   }
   /* 骨架屏 */
   .skeleton{

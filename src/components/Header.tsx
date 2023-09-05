@@ -7,12 +7,14 @@ import { Get } from '@/utils'
 import { useRouter } from 'next/router'
 import InputSearch from './InputSearch'
 import VipSvg from '@/assets/img/vip.svg'
+import { useSession, signOut } from 'next-auth/react'
 import JuejinSvg from '../../public/juejin.svg'
 import { headerStore, loginModal } from '@/store'
 import JuejinSmallSvg from '../../public/juejin-small.svg'
-import { AiFillCaretDown } from 'react-icons/ai'
+import { AiFillCaretDown, AiFillBell } from 'react-icons/ai'
 
 const Header = () => {
+  const { data: session, status, update } = useSession()
   const header = headerStore()
   const router = useRouter()
   const { onOpen } = loginModal()
@@ -52,11 +54,23 @@ const Header = () => {
     },
     {
       key: 'extension',
-      name:'插件'
+      name: '插件'
     }
   ])
+
+  console.info(status, session, 'hhhh')
   //const fetcher: Fetcher<Nav[]> = (url: string) => Get<Nav[]>(url)
   //const { data } = useSwr('/api/nav', fetcher)
+
+  const handleSignOut = async () => {
+    //退出登录之后重定向地址
+    const data = await signOut({ redirect: false, callbackUrl: '/' })
+    router.push(data.url)
+  }
+  const signOutGithub = () => {
+    //signOut({ redirect: false })
+    signOut()
+  }
 
   return (
     <header
@@ -91,10 +105,12 @@ const Header = () => {
             </Link>)}
           </li>
           <li className='absolute right-4'>
-            <ul className='flex'>
-              <li className='flex overflow-hidden gap-x-6'>
+            <ul className='flex h-11'>
+              <li className='flex overflow-hidden gap-x-6 items-center'>
                 <InputSearch />
-                <button className='btn-primary'>
+                <button
+                  onClick={() => router.push('/editor')}
+                  className='btn-primary'>
                   创作者中心
                 </button>
               </li>
@@ -103,11 +119,23 @@ const Header = () => {
                 <span>会员</span>
               </li>
               <li className='ml-6 hidden sm:block group relative'>
-                <button
+                {!session ? <button
                   onClick={() => onOpen()}
                   className='btn-secondary'>
                   登录&nbsp;|&nbsp;注册
-                </button>
+                </button> : <div className='flex items-center gap-x-5 h-full'>
+                  <AiFillBell className=' text-2xl text-juejin-font-3 hover:text-juejin-font-2 cursor-pointer' />
+                  <div className='relative group'>
+                    <Image src={'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'} alt='头像' width={40} height={10} className=' cursor-pointer' />
+                    <div className='arrows-center hidden group-hover:block bg-juejin-layer-1 absolute z-50 -bottom-16 border-t border-t-juejin-gray-1-1 -left-9 p-4 w-24 shadow-md'>
+                      <button
+                        onClick={signOutGithub}
+                        className='btn-text'>
+                        退出登录
+                      </button>
+                    </div>
+                  </div>
+                </div>}
               </li>
             </ul>
           </li>

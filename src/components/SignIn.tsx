@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { loginModal } from '@/store'
 import { useForm } from 'react-hook-form'
 import { AiOutlineClose, AiFillGithub } from 'react-icons/ai'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 
 type Inputs = {
   email: string
@@ -15,11 +15,15 @@ const SignIn = () => {
   const { data: session } = useSession()
   const { handleSubmit, register, formState: { errors } } = useForm<Inputs>()
 
-  console.info(session)
-
   const onSubmit = handleSubmit(data => {
     console.info(data, 'data')
   })
+
+  const signInGithub = () => {
+    signIn('github')
+  }
+
+  console.info(session, 'session')
 
   React.useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -64,7 +68,9 @@ const SignIn = () => {
           </button>
           <div className='mt-7 leading-8 h-8'>
             <span >其他登录：</span>
-            <AiFillGithub className=' inline ml-4 text-[2rem] -translate-y-[2px] cursor-pointer hover:text-juejin-brand-2-hover' title='icon_Github' />
+            <AiFillGithub
+              onClick={signInGithub}
+              className=' inline ml-4 text-[2rem] -translate-y-[2px] cursor-pointer hover:text-juejin-brand-2-hover' title='icon_Github' />
           </div>
           <p className='text-center mt-7'>
             注册登录即表示同意

@@ -5,12 +5,16 @@ import GitHubProvider from 'next-auth/providers/github'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 export const authOptions: NextAuthOptions = {
+  debug:isDev,
   adapter: PrismaAdapter(prisma),
-  secret:process.env.SECRET,
+  secret: process.env.SECRET,
   providers: [
     GitHubProvider({
-      clientId: process.env.GITHUB_ID??'',
-      clientSecret: process.env.GITHUB_SECRET ?? '',
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      httpOptions: {
+        timeout:5000
+      }
     }),
   ],
   callbacks: {
@@ -25,9 +29,6 @@ export const authOptions: NextAuthOptions = {
   //  strategy: 'database',
   //  maxAge: 30 * 24 * 60 * 60,
   //  updateAge: 24 * 60 * 60,
-  //  generateSessionToken() {
-  //    return randomUUID?.()??randomBytes(32).toString('hex')
-  //  }
   //}
 }
 

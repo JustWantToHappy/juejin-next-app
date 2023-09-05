@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async (props) => {
     const res = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
     data = await res.json()
   }
-  return { props: data }
+  return { props: data, revalidate: 60 }
 }
 
 type Position = {

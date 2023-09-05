@@ -4,10 +4,9 @@ import SignIn from '../SignIn'
 import { useRouter } from 'next/router'
 import { useThrottle } from '@/hooks'
 import FloatButtons from '../FloatButtons'
-import { SessionProvider } from 'next-auth/react'
 import { headerStore, loginModal } from '@/store'
 
-const BasicLayout: React.FC<React.PropsWithChildren & { session: any }> = (props) => {
+const BasicLayout: React.FC<React.PropsWithChildren > = (props) => {
   const { open } = loginModal()
   const router = useRouter()
   const { onClose, onOpen } = headerStore()
@@ -39,18 +38,13 @@ const BasicLayout: React.FC<React.PropsWithChildren & { session: any }> = (props
     }
   }, [handleScroll])
 
-  return (
-    <SessionProvider session={props.session}>
-      {/* min-w-[--content-min-width] */}
-      <main className=''>
-        {open && <SignIn />}
-        <Header />
-        <div className='my-[--nav-header-height]'></div>
-        <div className='pt-6'>{props.children}</div>
-        <FloatButtons showUpIcon={showUpIcon} />
-      </main>
-    </SessionProvider>
-  )
+  return (<main className='' >
+    {open && <SignIn />}
+    <Header />
+    <div className='my-[--nav-header-height]'></div>
+    <div className='pt-6'>{props.children}</div>
+    <FloatButtons showUpIcon={showUpIcon} />
+  </main >)
 }
 
 export default BasicLayout

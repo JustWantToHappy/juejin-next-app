@@ -36,27 +36,17 @@ const Home = (props: { data: string }) => {
   }, [])
 
   return (
-    <div>
-      <Head>
-        <title>稀土掘金</title>
-      </Head>
-      <div>
-        <VirtualList components={listData} extraRenderCount={10} />
-      </div>
-    </div>
-  )
-}
-
-Home.getLayout = function getLayout(page: React.ReactElement) {
-  return (<BasicLayout session=''>
     <HomeLayout>
-      {page}
+      <div>
+        <Head>
+          <title>稀土掘金</title>
+        </Head>
+        <div>
+          <VirtualList components={listData} extraRenderCount={10} />
+        </div>
+      </div>
     </HomeLayout>
-  </BasicLayout>)
-}
-
-Home.getInitialProps = async () => {
-  return {}
+  )
 }
 
 export default Home

@@ -82,7 +82,7 @@ const Eidtor = () => {
             className=' bg-juejin-brand-1-normal text-juejin-gray-0 px-8 mr-4 p-3 rounded-full  hover:bg-juejin-brand-2-hover'>发布</button>
           <div
             onClick={e => e.stopPropagation()}
-            className={`after:w-4 after:h-4 after:bg-juejin-layer-1 after:border after:border-t-juejin-gray-1-1 after:border-transparent after:border-l-juejin-gray-1-1 after:border-t after:absolute after:z-20 after:right-4 after:-top-2 after:rotate-45  p-4 shadow  border-t-juejin-gray-1-1 border-t  absolute right-7 min-w-[350px] max-w-full h-[320px] -bottom-[330px] z-10 layer  ${show ? 'block' : 'hidden'}`}>
+            className={`arrows  p-4 shadow  border-t-juejin-gray-1-1 border-t  absolute right-7 min-w-[350px] max-w-full h-[320px] -bottom-[330px] z-10 layer  ${show ? 'block' : 'hidden'}`}>
             <div>
               <label className=' float-left'>分类：</label>
               <div className='grid grid-cols-4 gap-2'>
@@ -104,10 +104,10 @@ const Eidtor = () => {
             <div className='text-right mt-3'>
               <button
                 onClick={() => setShow(false)}
-                className=' border-juejin-brand-1-normal border text-juejin-brand-1-normal mr-4'>取消</button>
+                className=' btn-secondary  mr-4'>取消</button>
               <button
                 onClick={ConfirmPublish}
-                className=' bg-juejin-brand-1-normal text-juejin-layer-1 hover:bg-juejin-brand-2-hover'>确定发布</button>
+                className='btn-primary'>确定发布</button>
             </div>
           </div>
         </div>
