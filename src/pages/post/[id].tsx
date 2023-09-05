@@ -21,12 +21,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (props) => {
-  let data = null
+  let article = null, comments = []
   if (props.params?.id) {
-    const res = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
-    data = await res.json()
+    const res1 = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
+    article = await res1.json()
+    //const res2 = await fetch(`${process.env.PUBLIC_URL}/api/comment/`)
   }
-  return { props: data, revalidate: 60 }
+  return { props: article, revalidate: 60 }
 }
 
 type Position = {
@@ -92,7 +93,7 @@ const Post = (props: ArticleType) => {
             <Article {...props} getCatelogue={getCatelogue} />
           </div>
           <div className='layer mt-3 mb-8 px-10 py-4'>
-            <Comment />
+            <Comment articleId={props.id} />
           </div>
         </div>
         <div className='w-[--home-aside-width] hidden lg:block'>

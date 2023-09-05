@@ -24,3 +24,10 @@ export type CatelogueType = {
   title: string;
   children?:CatelogueType[]
 }
+
+export type CommentType = {
+  content: string;
+  articleId: string;
+  userId: string;
+  parentId?: string;
+}

@@ -58,7 +58,6 @@ const Header = () => {
     }
   ])
 
-  console.info(status, session, 'hhhh')
   //const fetcher: Fetcher<Nav[]> = (url: string) => Get<Nav[]>(url)
   //const { data } = useSwr('/api/nav', fetcher)
 
@@ -68,8 +67,9 @@ const Header = () => {
     router.push(data.url)
   }
   const signOutGithub = () => {
+    const isSignOut = confirm('确定登出吗？每一片贫瘠的土地都需要坚定的挖掘者！')
     //signOut({ redirect: false })
-    signOut()
+    if (isSignOut) signOut()
   }
 
   return (
@@ -106,11 +106,11 @@ const Header = () => {
           </li>
           <li className='absolute right-4'>
             <ul className='flex h-11'>
-              <li className='flex overflow-hidden gap-x-6 items-center'>
+              <li className='flex overflow-hidden gap-x-6 items-center '>
                 <InputSearch />
                 <button
                   onClick={() => router.push('/editor')}
-                  className='btn-primary'>
+                  className='btn-primary hidden sm:block'>
                   创作者中心
                 </button>
               </li>
@@ -126,7 +126,7 @@ const Header = () => {
                 </button> : <div className='flex items-center gap-x-5 h-full'>
                   <AiFillBell className=' text-2xl text-juejin-font-3 hover:text-juejin-font-2 cursor-pointer' />
                   <div className='relative group'>
-                    <Image src={'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'} alt='头像' width={40} height={10} className=' cursor-pointer' />
+                    <Image src={session?.user?.image ?? 'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'} alt='头像' width={40} height={40} className=' cursor-pointer rounded-full' />
                     <div className='arrows-center hidden group-hover:block bg-juejin-layer-1 absolute z-50 -bottom-16 border-t border-t-juejin-gray-1-1 -left-9 p-4 w-24 shadow-md'>
                       <button
                         onClick={signOutGithub}

@@ -23,8 +23,6 @@ const SignIn = () => {
     signIn('github')
   }
 
-  console.info(session, 'session')
-
   React.useEffect(() => {
     document.body.style.overflow = 'hidden'
 

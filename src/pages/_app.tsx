@@ -6,18 +6,18 @@ import type { Session } from 'next-auth'
 
 type Props = {
   Component: React.FC
-  props: {
+  pageProps: {
     [key in string]: any
   } & { session: Session }
 }
 
 //创建单一共享布局
-const App: React.FC<Props> = ({ Component, props }) => {
-  const { session, ...pageProps } = props || {}
+const App: React.FC<Props> = ({ Component, pageProps }) => {
+  const { session, ...props } = pageProps || {}
   return (
     <SessionProvider session={session}>
       <BasicLayout >
-        <Component {...pageProps} />
+        <Component {...props} />
       </BasicLayout>
     </SessionProvider>
   )
