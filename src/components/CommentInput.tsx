@@ -28,6 +28,7 @@ const CommentInput: React.FC<{ articleId: string }> = ({ articleId }) => {
       })
       alert(data)
       inputRef.current.textContent = ''
+      inputRef.current.blur()
     }
   }
 

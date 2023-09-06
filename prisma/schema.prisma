@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum Gender {
   MALE
   FEMALE
@@ -68,12 +67,12 @@ model User {
 }
 
 model Profile {
-  id       Int       @id @default(autoincrement())
-  userId   String?   @unique
-  user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  gender   Gender
-  age      Int
-  
+  id     Int     @id @default(autoincrement())
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gender Gender
+  age    Int
+
   phone    String
   birthday DateTime?
   level    Int       @default(0)
@@ -137,10 +136,11 @@ model Comment {
   likes     Int      @default(0)
   content   String   @db.Text
   parentId  Int      @default(0)
+  rootId    Int      @default(0)
   createdAt DateTime @default(now())
   Article   Article? @relation(fields: [articleId], references: [id])
   articleId String?
-  user      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id]) //回复者
   userId    String?
 }
 

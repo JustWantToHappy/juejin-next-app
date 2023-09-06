@@ -21,11 +21,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (props) => {
-  let article = null, comments = []
+  let article = null
   if (props.params?.id) {
     const res1 = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
     article = await res1.json()
-    //const res2 = await fetch(`${process.env.PUBLIC_URL}/api/comment/`)
   }
   return { props: article, revalidate: 60 }
 }

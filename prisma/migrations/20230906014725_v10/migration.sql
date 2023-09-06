@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `comment` ADD COLUMN `rootId` INTEGER NOT NULL DEFAULT 0;

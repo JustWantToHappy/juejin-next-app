@@ -1,3 +1,5 @@
+import type {Comment,User } from 'prisma/prisma-client'
+
 export type Nav = {
   key: string;
   name: string;
@@ -31,3 +33,5 @@ export type CommentType = {
   userId: string;
   parentId?: string;
 }
+type BasicComment=Comment&{user:User|null}
+export type ResCommentType=BasicComment&{children:Array<BasicComment&{parent?:BasicComment}>}
