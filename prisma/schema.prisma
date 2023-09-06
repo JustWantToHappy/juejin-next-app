@@ -138,10 +138,10 @@ model Comment {
   parentId  Int      @default(0)
   rootId    Int      @default(0)
   createdAt DateTime @default(now())
-  Article   Article? @relation(fields: [articleId], references: [id])
-  articleId String?
-  user      User?    @relation(fields: [userId], references: [id]) //回复者
-  userId    String?
+  Article   Article  @relation(fields: [articleId], references: [id])
+  articleId String
+  user      User     @relation(fields: [userId], references: [id]) //回复者
+  userId    String
 }
 
 model Attention {

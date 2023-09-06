@@ -6,15 +6,16 @@ type Props = {
   url: string
   alt?: string
   title?: string
+  size?: number
 }
 
-const Avatar: React.FC<Props> = ({ url, alt = '头像', title = '头像' }) => {
+const Avatar: React.FC<Props> = ({ url, alt = '头像', title = '头像', size = 40 }) => {
   return (
     <div >
       {(url ?? '' !== '') ?
         <Image
-          width={40}
-          height={40}
+          width={size}
+          height={size}
           className='rounded-full'
           src={url}
           alt={alt}

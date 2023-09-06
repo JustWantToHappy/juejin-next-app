@@ -104,7 +104,7 @@ const Post = (props: ArticleType) => {
             </div>
           </div>
           <div className={` pt-4  mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
-            <Catelogue catelogue={catelogue} markdownContainer={markdownRef.current} smoothScroll />
+            <Catelogue catelogue={catelogue} markdownContainer={markdownRef.current} smoothScroll={true} />
           </div>
         </div>
       </div>
