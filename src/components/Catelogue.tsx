@@ -30,7 +30,7 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
     event.preventDefault()
     if (markdownContainer) {
       const index = event.currentTarget.getAttribute('data-index')
-      const hash = (event.target as HTMLAnchorElement)?.hash ?? ''
+      const hash = `#heading-${index}`
       const titleEle = markdownContainer.querySelector(`[data-id='${hash.slice(1)}']`) as HTMLElement
       if (titleEle) {
         const offsetTop = getElementTopOffset(titleEle)
