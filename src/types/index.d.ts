@@ -30,8 +30,9 @@ export type CatelogueType = {
 export type CommentType = {
   content: string;
   articleId: string;
-  userId: string;
-  parentId?: string;
+  userId:string;
+  parentId?:number;
+  rootId?:number
 }
 type BasicComment=Comment&{user:User|null}
 export type ResCommentType=BasicComment&{children:Array<BasicComment&{parent?:BasicComment}>}

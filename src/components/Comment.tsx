@@ -7,10 +7,9 @@ import { loginModal } from '@/store'
 import CommentItem from './CommentItem'
 import CommentInput from './CommentInput'
 import useSWRInfinite from 'swr/infinite'
-import type { ResCommentType } from '@/types'
 import { useSession } from 'next-auth/react'
+import type { ResCommentType } from '@/types'
 
-const pageSize = 5
 type Res = {
   data: ResCommentType[]
   total: number
@@ -19,14 +18,20 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
   const { articleId } = props
   const { onOpen } = loginModal()
   const { data: session } = useSession()
+  const [pageSize, setPageSize] = React.useState(5)
   const fetcher: Fetcher<Res> = (url: string) => Get<Res>(url)
-  const { data, size, setSize, isLoading, mutate } = useSWRInfinite((index) => {
+  const [activeCommentInput, setActiveCommentInput] = React.useState(-1)
+  const { data, setSize, isLoading, mutate } = useSWRInfinite((index) => {
     return `/api/comment/${articleId}/?current=${index + 1}&pageSize=${pageSize}`
   }, fetcher)
 
   const updateComments = React.useCallback(() => {
     mutate()
   }, [mutate])
+
+  const updateActiveCommentInput = React.useCallback((active: number) => {
+    setActiveCommentInput(active)
+  }, [])
 
   const currentTotal = React.useMemo(() => {
     return data?.reduce((currentValue, { data }) => currentValue + data.length, 0)
@@ -38,6 +43,16 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
     }
     return 0
   }, [data])
+
+  React.useEffect(() => {
+    const handleClick = () => {
+      setActiveCommentInput(-1)
+    }
+    window.addEventListener('click', handleClick)
+    return function () {
+      window.removeEventListener('click', handleClick)
+    }
+  }, [])
 
   if (isLoading) return <Skeleton />
 
@@ -64,6 +79,9 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
           return comments.map(firstLevelComment => <div key={firstLevelComment.id} className='mb-8'>
             <CommentItem
               id={firstLevelComment.id}
+              rootId={firstLevelComment.id}
+              activeCommentInput={activeCommentInput}
+              updateActiveCommentInput={updateActiveCommentInput}
               articleId={articleId}
               user={firstLevelComment.user}
               likes={firstLevelComment.likes}
@@ -74,7 +92,11 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
                 {firstLevelComment?.children?.map(secondLevelComment =>
                   <CommentItem
                     id={secondLevelComment.id}
+                    rootId={firstLevelComment.id}
                     avatarSize={30}
+                    parent={secondLevelComment.parent}
+                    updateActiveCommentInput={updateActiveCommentInput}
+                    activeCommentInput={activeCommentInput}
                     articleId={articleId}
                     user={secondLevelComment.user}
                     key={secondLevelComment.id}
