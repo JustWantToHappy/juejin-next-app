@@ -47,7 +47,9 @@ const CommentItem: React.FC<Props> = ({
       onOpen()
     } else {
       const current = event.currentTarget as HTMLSpanElement
-      if (activeCommentInput === -1 || parseInt(current.getAttribute('data-id') ?? '0') !== activeCommentInput) updateActiveCommentInput?.(parseInt(current.getAttribute('data-id') ?? '0'))
+      if (activeCommentInput === -1 || parseInt(current.getAttribute('data-id') ?? '0') !== activeCommentInput) {
+        updateActiveCommentInput?.(parseInt(current.getAttribute('data-id') ?? '0'))
+      }
       else {
         updateActiveCommentInput?.(-1)
       }
@@ -69,7 +71,7 @@ const CommentItem: React.FC<Props> = ({
                 <span className='text-juejin-font-1'>{user?.name}</span>
               </Link>
               {parent && <>
-                <span>回复</span>
+                <span >回复</span>
                 <Link href='/'>
                   <span className='text-juejin-font-1'>{parent.user?.name}</span>
                 </Link>
@@ -87,18 +89,22 @@ const CommentItem: React.FC<Props> = ({
               className="cursor-pointer hover:text-juejin-brand-2-hover w-16 relative after:content-['点赞'] after:absolute after:text-base  after:right-0 after:top-1/2 after:-translate-y-1/2">
               <AiOutlineLike />
             </span>
-            <span
+            <div
               onClick={handleReply}
               data-id={id}
-              className={`  after:content-['回复'] cursor-pointer hover:text-juejin-brand-2-hover w-16 relative after:absolute after:text-base  after:right-0 after:top-1/2 after:-translate-y-1/2 }`}>
+              className={` cursor-pointer hover:text-juejin-brand-2-hover relative ${activeCommentInput===id?'w-24  text-juejin-brand-1-normal':'w-16'}`}>
               <LiaCommentDots />
-            </span>
+              <span className=' absolute text-base right-0 top-1/2 -translate-y-1/2'>
+                {activeCommentInput === id ? '取消回复' : '回复'}
+              </span>
+            </div>
             <RiMoreLine className='cursor-pointer' />
           </div>
           {activeCommentInput === id && <CommentInput
             parentId={id}
             rootId={rootId}
             articleId={articleId}
+            placeholder={`回复${user?.name}...`}
             defaultFocus />}
         </div>
         {children}

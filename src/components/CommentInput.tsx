@@ -1,6 +1,7 @@
 import React from 'react'
 import { Post } from '@/utils'
 import type { CommentType } from '@/types'
+import { MdOutlineMood } from 'react-icons/md'
 import { useSession } from 'next-auth/react'
 
 interface Props {
@@ -9,12 +10,30 @@ interface Props {
   updateComments?: () => void
   parentId?: number
   rootId?: number
+  placeholder?: string
 }
 
-const CommentInput: React.FC<Props> = ({ articleId, defaultFocus, updateComments, parentId = 0, rootId = 0 }) => {
+const CommentInput: React.FC<Props> = ({
+  articleId,
+  defaultFocus,
+  updateComments,
+  parentId = 0,
+  rootId = 0,
+  placeholder = '输入评论 (Enter换行,Ctrl + Enter发送)'
+}) => {
   const { data: session } = useSession()
   const inputRef = React.useRef<HTMLDivElement>(null)
   const [comment, setComment] = React.useState('')
+
+  const stopBlur = (event: React.MouseEvent) => {
+    event.preventDefault()
+  }
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (rootId && parentId) {
+      event.stopPropagation()
+    }
+  }
 
   const handleBlur = (event: React.ChangeEvent) => {
     const input = event.target as HTMLDivElement
@@ -61,8 +80,17 @@ const CommentInput: React.FC<Props> = ({ articleId, defaultFocus, updateComments
     }
   }, [defaultFocus])
 
+  React.useEffect(() => {
+    if (inputRef.current) {
+      const style = document.createElement('style')
+      document.head.appendChild(style)
+      const sheet = style.sheet
+      sheet?.insertRule(`.${'comment-input' + parentId}::before{content:'${placeholder}'}`)
+    }
+  }, [placeholder, parentId])
+
   return (
-    <div onClick={e => e.stopPropagation()}>
+    <div onClick={handleClick}>
       <div
         ref={inputRef}
         spellCheck={false}
@@ -70,16 +98,22 @@ const CommentInput: React.FC<Props> = ({ articleId, defaultFocus, updateComments
         onKeyUp={handleKeyUp}
         onInput={handleInput}
         contentEditable
-        className={`before:content-['输入评论,(Enter换行,Ctrl+Enter发送)'] before:top-4 before:left-4 before:text-juejin-font-3  before:absolute before:pointer-events-none relative min-h-[70px] bg-juejin-gray-1-2 p-4 border border-transparent focus:border-juejin-brand-1-normal focus:bg-juejin-layer-1 text-juejin-font-1 layer transition-all duration-300 ${comment === '' ? ' before:block' : ' before:hidden'}`}
-        placeholder='输入评论 (Enter换行,Ctrl + Enter发送)'>
+        className={`${'comment-input' + parentId} before:top-4 before:left-4 before:text-juejin-font-3  before:absolute before:pointer-events-none relative min-h-[70px] bg-juejin-gray-1-2 p-4 border border-transparent focus:border-juejin-brand-1-normal focus:bg-juejin-layer-1 text-juejin-font-1 layer transition-all duration-300 ${comment === '' ? ' before:block' : ' before:hidden'}`}
+        placeholder={placeholder}>
       </div>
-      <div className='justify-end mt-3 flex'>
+      <div
+        onMouseDown={stopBlur}
+        className=' justify-between mt-3 flex'>
+        <div className='flex gap-x-1 items-center text-juejin-font-3'>
+          <MdOutlineMood className='text-xl' />
+          <span>表情</span>
+        </div>
         <div className='text-juejin-font-3'>
           <span>Crtl + Enter</span>
           <button
             disabled={comment === ''}
             onClick={submitComment}
-            className={`btn-primary ml-6 px-4 py-3 ${comment === '' && ' bg-juejin-brand-4-disable hover:bg-juejin-brand-4-disable'}`}>
+            className={`btn-primary ml-6 px-4 py-3 ${comment === '' && ' bg-juejin-brand-4-disable hover:bg-juejin-brand-4-disable pointer-events-none'}`}>
             发表评论
           </button>
         </div>
