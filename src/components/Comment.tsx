@@ -9,14 +9,17 @@ import CommentInput from './CommentInput'
 import useSWRInfinite from 'swr/infinite'
 import { useSession } from 'next-auth/react'
 import type { ResCommentType } from '@/types'
+import { BsChevronDown } from 'react-icons/bs'
 
 type Res = {
   data: ResCommentType[]
   total: number
+  listLength: number
 }
 const Comment: React.FC<{ articleId: string }> = (props) => {
   const { articleId } = props
   const { onOpen } = loginModal()
+  const commentRef = React.useRef<HTMLDivElement>(null)
   const { data: session } = useSession()
   const [pageSize, setPageSize] = React.useState(5)
   const fetcher: Fetcher<Res> = (url: string) => Get<Res>(url)
@@ -24,6 +27,10 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
   const { data, setSize, isLoading, mutate } = useSWRInfinite((index) => {
     return `/api/comment/${articleId}/?current=${index + 1}&pageSize=${pageSize}`
   }, fetcher)
+
+  const loadingMore = () => {
+    setSize(size => size + 1)
+  }
 
   const updateComments = React.useCallback(() => {
     mutate()
@@ -33,8 +40,9 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
     setActiveCommentInput(active)
   }, [])
 
+
   const currentTotal = React.useMemo(() => {
-    return data?.reduce((currentValue, { data }) => currentValue + data.length, 0)
+    return data?.reduce((currentValue, { listLength }) => currentValue + listLength, 0) || 0
   }, [data])
 
   const total = React.useMemo(() => {
@@ -54,10 +62,12 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
     }
   }, [])
 
-  if (isLoading) return <Skeleton />
 
+  if (isLoading) return <div className='px-8'><Skeleton /></div>
   return (
-    <div id='comment'>
+    <div
+      ref={commentRef}
+      id='comment'>
       <div className=' font-extrabold text-xl '>
         <span onClick={() => setSize(size => size + 1)}>评论</span>
       </div>
@@ -82,6 +92,7 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
               rootId={firstLevelComment.id}
               activeCommentInput={activeCommentInput}
               updateActiveCommentInput={updateActiveCommentInput}
+              updateComments={updateComments}
               articleId={articleId}
               user={firstLevelComment.user}
               likes={firstLevelComment.likes}
@@ -94,6 +105,7 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
                     id={secondLevelComment.id}
                     rootId={firstLevelComment.id}
                     avatarSize={30}
+                    updateComments={updateComments}
                     parent={secondLevelComment.parent}
                     updateActiveCommentInput={updateActiveCommentInput}
                     activeCommentInput={activeCommentInput}
@@ -107,6 +119,13 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
           </div>)
         })}
       </div>
+      {/* loading more... */}
+      <p
+        onClick={loadingMore}
+        style={{ display: `${(currentTotal < total) ? 'flex' : 'none'}` }}
+        className={`cursor-pointer bg-juejin-layer-2-1 text-juejin-font-2  items-center h-[52px] justify-center text-lg tracking-wider hover:text-juejin-brand-2-hover`}>
+        加载更多评论<BsChevronDown />
+      </p>
     </div>
   )
 }

@@ -126,7 +126,12 @@ const Header = () => {
                 </button> : <div className='flex items-center gap-x-5 h-full'>
                   <AiFillBell className=' text-2xl text-juejin-font-3 hover:text-juejin-font-2 cursor-pointer' />
                   <div className='relative group'>
-                    <Image src={session?.user?.image ?? 'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'} alt='头像' width={40} height={40} className=' cursor-pointer rounded-full' />
+                    <Image
+                      src={session?.user?.image ?? 'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'}
+                      alt='头像'
+                      width={40}
+                      height={40}
+                      className=' cursor-pointer rounded-full hover:animate-spin ' />
                     <div className='arrows-center hidden group-hover:block bg-juejin-layer-1 absolute z-50 -bottom-16 border-t border-t-juejin-gray-1-1 -left-9 p-4 w-24 shadow-md'>
                       <button
                         onClick={signOutGithub}

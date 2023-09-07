@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export default async function handler (req:NextApiRequest,res:NextApiResponse) {
   if (req.method === Method.GET) {
     const articleId = (req.query.id??'0') as string
-    const take=parseInt(req.query.pageSize as string)
+    const take = parseInt(req.query.pageSize as string)
     const current=parseInt(req.query.current as string)
     const firstLevelComments = await prisma.comment.findMany({
       where: { articleId, parentId: 0 },
@@ -16,8 +16,8 @@ export default async function handler (req:NextApiRequest,res:NextApiResponse) {
       include:{user:true}
     })
     const comments:Array<ResCommentType>=firstLevelComments.map(firstLevelComment=>({...firstLevelComment,children:[]}))
-    //一级评论总数
-    const firstLevelCommentsCount=await prisma.comment.count({where:{articleId,parentId:0}})
+    //评论总数
+    const total=await prisma.comment.count({where:{articleId}})
     await Promise.all(firstLevelComments.map(async (firstLevelComment) => {
       const rootId = firstLevelComment.id
       const comment=comments.find(comment=>comment.id===firstLevelComment.id)
@@ -36,6 +36,7 @@ export default async function handler (req:NextApiRequest,res:NextApiResponse) {
         }
       })
     }))
-    res.status(200).json({total:firstLevelCommentsCount,data:comments})
+    const listLength=comments.length+comments.reduce((currentValue,comment)=>currentValue+comment.children.length,0)
+    res.status(200).json({total,data:comments,listLength})
   }
 }

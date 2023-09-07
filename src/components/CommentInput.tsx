@@ -8,6 +8,7 @@ interface Props {
   articleId: string
   defaultFocus?: boolean
   updateComments?: () => void
+  updateActiveCommentInput?: (active: number) => void
   parentId?: number
   rootId?: number
   placeholder?: string
@@ -17,6 +18,7 @@ const CommentInput: React.FC<Props> = ({
   articleId,
   defaultFocus,
   updateComments,
+  updateActiveCommentInput,
   parentId = 0,
   rootId = 0,
   placeholder = '输入评论 (Enter换行,Ctrl + Enter发送)'
@@ -55,10 +57,13 @@ const CommentInput: React.FC<Props> = ({
         parentId,
         rootId
       })
-      updateComments?.()
       inputRef.current.textContent = ''
+      updateComments?.()
       setComment('')
       inputRef.current.blur()
+      if (rootId && parentId) {
+        updateActiveCommentInput?.(-1)
+      }
     }
   }
 

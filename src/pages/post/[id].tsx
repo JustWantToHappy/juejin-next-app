@@ -4,9 +4,11 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useDebouce } from '@/hooks'
 import { headerStore } from '@/store'
+import Avatar from '@/components/Avatar'
 import Comment from '@/components/Comment'
 import Article from '@/components/Article'
 import Catelogue from '@/components/Catelogue'
+import { useSession } from 'next-auth/react'
 import type { CatelogueType } from '@/types'
 import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
@@ -35,6 +37,7 @@ type Position = {
 }
 
 const Post = (props: ArticleType) => {
+  const { data: session } = useSession()
   const { close } = headerStore()
   const router = useRouter()
   const positionsRef = React.useRef<Position[]>()
@@ -97,7 +100,7 @@ const Post = (props: ArticleType) => {
         </div>
         <div className='w-[--home-aside-width] hidden lg:block'>
           <div className='layer h-[100px] py-4 px-3 flex items-center gap-x-4'>
-            <Image width='100' height='40' className='rounded-full w-14 h-14 object-cover' src='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' alt='头像' />
+            <Avatar url={session?.user.image} size={50} />
             <div className='flex flex-col gap-y-2'>
               <span>JustWantToHappy</span>
               <span className='text-juejin-font-3'>学生</span>
