@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useDebouce } from '@/hooks'
+import { useDebouce, useThrottle } from '@/hooks'
 import { headerStore } from '@/store'
 import Avatar from '@/components/Avatar'
 import Comment from '@/components/Comment'
@@ -16,7 +16,7 @@ import type { GetStaticProps, GetStaticPaths } from 'next'
 import { isHeadingEle, getElementTopOffset } from '@/utils'
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${process.env.PUBLIC_URL}/api/article`)
+  const res = await fetch(`${process.env.API_URL}/api/article`)
   const articleIds = await res.json()
   const paths = articleIds?.map((article: any) => ({ params: { id: article?.id } }))
   return { paths: paths ?? [], fallback: false }
@@ -25,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (props) => {
   let article = null
   if (props.params?.id) {
-    const res1 = await fetch(`${process.env.PUBLIC_URL}/api/article/${props.params.id}`)
+    const res1 = await fetch(`${process.env.API_URL}/api/article/${props.params.id}`)
     article = await res1.json()
   }
   return { props: article, revalidate: 60 }

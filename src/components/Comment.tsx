@@ -126,6 +126,11 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
         className={`cursor-pointer bg-juejin-layer-2-1 text-juejin-font-2  items-center h-[52px] justify-center text-lg tracking-wider hover:text-juejin-brand-2-hover`}>
         加载更多评论<BsChevronDown />
       </p>
+      <p
+        className=' justify-center items-center text-juejin-font-3'
+        style={{ display: `${currentTotal >= total ? 'flex' : 'none'}` }}>
+        已经到底了(๑•̀ω•́)ノ
+      </p>
     </div>
   )
 }

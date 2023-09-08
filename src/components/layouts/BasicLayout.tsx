@@ -6,10 +6,10 @@ import { useThrottle } from '@/hooks'
 import FloatButtons from '../FloatButtons'
 import { headerStore, loginModal } from '@/store'
 
-const BasicLayout: React.FC<React.PropsWithChildren > = (props) => {
+const BasicLayout: React.FC<React.PropsWithChildren> = (props) => {
   const { open } = loginModal()
   const router = useRouter()
-  const { onClose, onOpen } = headerStore()
+  const { onClose, onOpen, close } = headerStore()
   const [showUpIcon, setShowUpIcon] = React.useState(router.pathname === '/editor')
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>()
   const prevStopScrollTopRef = React.useRef<number>(0)
@@ -18,12 +18,14 @@ const BasicLayout: React.FC<React.PropsWithChildren > = (props) => {
     if (router.pathname === '/editor') {
       return
     }
-
-    const scrollTop = window.scrollY
+    const scrollTop = window.scrollY, totalHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
     scrollTop > 100 ? setShowUpIcon(true) : setShowUpIcon(false)
-
     if (scrollTop - prevStopScrollTopRef.current > 100) onClose()
-    if (prevStopScrollTopRef.current - scrollTop > 30 || !scrollTop) onOpen()
+    if (prevStopScrollTopRef.current - scrollTop > 30 || !scrollTop) {
+      onOpen()
+    } else if (!close && scrollTop >= totalHeight / 3) {
+      onClose()
+    }
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
       prevStopScrollTopRef.current = scrollTop

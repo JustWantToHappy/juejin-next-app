@@ -3,6 +3,7 @@ import { Method } from '@/constants'
 import type { ResCommentType} from '@/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+
 export default async function handler (req:NextApiRequest,res:NextApiResponse) {
   if (req.method === Method.GET) {
     const articleId = (req.query.id??'0') as string
@@ -36,7 +37,7 @@ export default async function handler (req:NextApiRequest,res:NextApiResponse) {
         }
       })
     }))
-    const listLength=comments.length+comments.reduce((currentValue,comment)=>currentValue+comment.children.length,0)
+    const listLength = comments.length + comments.reduce((currentValue, comment) => currentValue + comment.children.length, 0)
     res.status(200).json({total,data:comments,listLength})
   }
 }

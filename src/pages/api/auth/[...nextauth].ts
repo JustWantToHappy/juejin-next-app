@@ -25,11 +25,6 @@ export const authOptions: NextAuthOptions = {
       return session      
     }
   },
-  //session: {
-  //  strategy: 'database',
-  //  maxAge: 30 * 24 * 60 * 60,
-  //  updateAge: 24 * 60 * 60,
-  //}
 }
 
 export default NextAuth(authOptions)

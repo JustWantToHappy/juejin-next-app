@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Avatar from './Avatar'
-import Skeleton from './Skeleton'
+import dayjs from 'dayjs'
 import { loginModal } from '@/store'
 import { useSession } from 'next-auth/react'
 import CommentInput from './CommentInput'
@@ -19,7 +19,7 @@ interface Props {
   content: string
   replies?: number
   user: User | null
-  createdAt?: Date
+  createdAt?: string | Date
   avatarSize?: number
   activeCommentInput: number
   parent?: BasicComment
@@ -39,7 +39,8 @@ const CommentItem: React.FC<Props> = ({
   parent,
   activeCommentInput,
   updateActiveCommentInput,
-  updateComments
+  updateComments,
+  createdAt
 }) => {
   const { onOpen } = loginModal()
   const { data: session } = useSession()
@@ -80,7 +81,7 @@ const CommentItem: React.FC<Props> = ({
                 </Link>
               </>}
             </div>
-            <span>22天前</span>
+            <span>{dayjs(createdAt).format('YYYY DD-MM HH:mm:ss')}</span>
           </div>
           <p className='text-juejin-font-1'>{content}</p>
           {parent && <div className='flex bg-juejin-gray-2 px-3 py-1 border border-juejin-gray-1-1'>

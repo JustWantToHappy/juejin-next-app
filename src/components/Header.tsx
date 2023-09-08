@@ -21,7 +21,7 @@ const Header = () => {
   const [shrink, setShrink] = React.useState(true)
   const [navs] = React.useState<Nav[]>([
     {
-      key: '/',
+      key: '',
       name: '首页'
     },
     {
@@ -96,7 +96,8 @@ const Header = () => {
           {/* 宽屏导航栏显示 */}
           <li className='w-[466px] items-center hidden xl:flex transition-all  duration-200'>
             {navs?.map(nav => <Link
-              key={nav.key === '' ? '/' : nav.key} href={nav.key === '' ? '/' : nav.key}
+              key={nav.key === '' ? '/' : nav.key}
+              href={nav.key === '' ? '/' : nav.key}
               locale='en'>
               <div
                 className={`mx-3 h-[--nav-header-height] flex items-center justify-center hover:text-juejin-font-1 relative after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-juejin-brand-1-normal after:opacity-0 hover:after:opacity-100 ${router.pathname === '/' + nav.key ? 'after:opacity-100' : ''}`}>
@@ -131,7 +132,7 @@ const Header = () => {
                       alt='头像'
                       width={40}
                       height={40}
-                      className=' cursor-pointer rounded-full hover:animate-spin ' />
+                      className=' cursor-pointer rounded-full ' />
                     <div className='arrows-center hidden group-hover:block bg-juejin-layer-1 absolute z-50 -bottom-16 border-t border-t-juejin-gray-1-1 -left-9 p-4 w-24 shadow-md'>
                       <button
                         onClick={signOutGithub}

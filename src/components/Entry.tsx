@@ -2,8 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { EntryType } from '@/types'
+import { FiMoreHorizontal } from 'react-icons/fi'
+import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai'
 
-const Entry: React.FC<EntryType> = ({ id, title, content, readCount, author, image, likes, tags }) => {
+const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image, likeCount, tags }) => {
   const navigatToArticle = () => {
     window.open(`/post/${id}`)
   }
@@ -26,15 +28,24 @@ const Entry: React.FC<EntryType> = ({ id, title, content, readCount, author, ima
           <Link
             onClick={e => e.preventDefault()}
             href={`/post/${id}`}>
-            <p className='ellipsis'>{content}</p>
+            <p className='ellipsis'>{desc}</p>
           </Link>
         </div>
         <div className='flex justify-between items-center'>
           <ul className='flex gap-x-4'>
             <li>{author}</li>
             <li className=' font-thin text-juejin-gray-1-1'>|</li>
-            <li>{readCount}</li>
-            <li className='ml-2'>{likes}</li>
+            <li className='flex items-center gap-x-2'>
+              <AiOutlineEye className='text-lg' />
+              <span>{readCount}</span>
+            </li>
+            <li className='ml-2 flex items-center gap-x-2'>
+              <AiOutlineLike className='text-lg' />
+              <span>{likeCount}</span>
+            </li>
+            <li className='flex items-center'>
+              <FiMoreHorizontal className='text-lg' />
+            </li>
           </ul>
           <div className='flex gap-x-4'>
             {tags.map(tag => <Link

@@ -1,4 +1,4 @@
-import type {Comment,User } from 'prisma/prisma-client'
+import type {Comment,User,Tag } from 'prisma/prisma-client'
 
 export type Nav = {
   key: string;
@@ -12,12 +12,12 @@ export type Tag = {
 export type EntryType = {
   id: number|string;
   title: string;
-  likes: number;
+  likeCount: number;
   tags: Tag[]
   image: string;
   readCount: number;
   author: string;
-  content: string;
+  desc: string;
 }
 
 export type CatelogueType = {
@@ -34,5 +34,20 @@ export type CommentType = {
   parentId?:number;
   rootId?:number
 }
-type BasicComment=Comment&{user:User|null}
+
+type BasicComment = { [key in keyof Comment]:
+ (key extends 'createdAt' ?
+string|Date :
+ Comment[key]) }
+  & { user: User | null }
 export type ResCommentType=BasicComment&{children:Array<BasicComment&{parent?:BasicComment}>}
+
+export type ArticleType = {
+  id: string;
+  title: string;
+  likeCount:number;
+  readCount: number;
+  desc: string;
+  user: User;
+  tags:Tag[]
+}

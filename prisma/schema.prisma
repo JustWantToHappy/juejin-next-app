@@ -72,7 +72,7 @@ model Profile {
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   gender Gender
   age    Int
-
+  
   phone    String
   birthday DateTime?
   level    Int       @default(0)
@@ -89,10 +89,10 @@ model Article {
   readCount    Int       @default(0)
   updatedAt    DateTime  @default(now())
   createdAt    DateTime  @default(now())
-  Tags         Tag[]
-  Comments     Comment[]
-  Likes        Like[]
-  Collections  Collect[]
+  tags         Tag[]
+  comments     Comment[]
+  likes        Like[]
+  collections  Collect[]
   user         User?     @relation(fields: [userId], references: [id])
   userId       String?
 }
@@ -107,7 +107,7 @@ model Tag {
   id       Int       @id @default(autoincrement())
   key      String    @unique
   name     String    @unique
-  Articles Article[]
+  articles Article[]
 }
 
 model Like {
@@ -115,7 +115,7 @@ model Like {
   createdAt DateTime @default(now())
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
-  Article   Article? @relation(fields: [articleId], references: [id])
+  article   Article? @relation(fields: [articleId], references: [id])
   articleId String?
 
   @@unique([userId, articleId])
@@ -125,7 +125,7 @@ model Collect {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  Article   Article  @relation(fields: [articleId], references: [id])
+  article   Article  @relation(fields: [articleId], references: [id])
   articleId String
 
   @@unique([userId, articleId])
@@ -138,7 +138,7 @@ model Comment {
   parentId  Int      @default(0)
   rootId    Int      @default(0)
   createdAt DateTime @default(now())
-  Article   Article  @relation(fields: [articleId], references: [id])
+  article   Article  @relation(fields: [articleId], references: [id])
   articleId String
   user      User     @relation(fields: [userId], references: [id]) //回复者
   userId    String
