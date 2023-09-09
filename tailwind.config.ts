@@ -23,6 +23,7 @@ const config: Config = {
       'juejin-md-quote-left': '#b2aec5',
       'juejin-md-code-bg': '#fff5f5',
       'juejin-md-code-font': '#ff502c',
+      'juejin-md-pre-bg':'#f8f8f8',
       //按钮相关
       'juejin-brand-1-normal': '#1e80ff',
       'juejin-brand-2-hover': '#1171ee',

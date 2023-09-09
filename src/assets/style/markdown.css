@@ -152,6 +152,7 @@
   /* 代码 */
   .markdown-body pre {
     overflow: auto;
+    @apply bg-juejin-md-pre-bg p-4 leading-8 rounded-md ;
   }
 
   /* 表格 */

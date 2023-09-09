@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { CatelogueType } from '@/types'
+import { TimerRefContext } from '@/context'
 import { getElementTopOffset, parseFromHashURL } from '@/utils'
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 
 const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownContainer }) => {
   const router = useRouter()
+  const timerRef = React.useContext(TimerRefContext)
   const catelogueRef = React.useRef<HTMLUListElement>(null)
   const [active, setActive] = React.useState(-1)
 
@@ -28,7 +30,7 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
 
   const handleClickCatelogue = (event: React.MouseEvent) => {
     event.preventDefault()
-    if (markdownContainer) {
+    if (markdownContainer && timerRef) {
       const index = event.currentTarget.getAttribute('data-index')
       const hash = `#heading-${index}`
       const titleEle = markdownContainer.querySelector(`[data-id='${hash.slice(1)}']`) as HTMLElement
@@ -37,6 +39,13 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
         window.scrollTo({ top: offsetTop - 60, behavior: smoothScroll ? 'smooth' : 'auto' })
       }
       setActive(parseInt(index ?? '0'))
+      router.push(hash)
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+      timerRef.current = setTimeout(() => {
+        timerRef.current = null
+      }, 300)
     }
   }
 
@@ -47,7 +56,6 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
         setActive(index)
       }
     }
-
     router.events.on('hashChangeComplete', handleHashChangeComplete)
     return function () {
       router.events.off('hashChangeComplete', handleHashChangeComplete)
@@ -56,17 +64,21 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
 
   //初始化页面同步hash
   React.useEffect(() => {
-    if (markdownContainer) {
+    if (markdownContainer && timerRef) {
       const index = parseFromHashURL(window.location.hash)
       if (!isNaN(index)) {
         const titleEle = markdownContainer.querySelector(`[data-id='${location.hash.slice(1)}']`) as HTMLElement
         if (titleEle) {
           const offsetTop = getElementTopOffset(titleEle)
           window.scrollTo({ top: offsetTop - 60, behavior: smoothScroll ? 'smooth' : 'auto' })
+          timerRef.current = setTimeout(() => {
+            timerRef.current = null
+          }, 300)
         }
+        setActive(index)
       }
     }
-  }, [markdownContainer, smoothScroll])
+  }, [markdownContainer, smoothScroll, timerRef])
 
 
   const generateCatelogueTree = (catelogue: CatelogueType[], level: number) => {

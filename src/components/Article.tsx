@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import dayjs from 'dayjs'
 import { AiOutlineEye } from 'react-icons/ai'
 import type { CatelogueType } from '@/types'
 import { generateCatelogue, isHeadingEle } from '@/utils'
@@ -39,7 +40,9 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) =
         </h1>
         <div className='flex  gap-x-4 text-juejin-font-3 items-center'>
           <Link href='/' className='text-juejin-font-2 hover:text-juejin-brand-2-hover'>JustWantToHappy</Link>
-          <time dateTime='2023-08-19T02:08:29.000Z' title='2023-08-19T02:08:29.000Z'>2023-08-19 10:08</time>
+          <time dateTime='2023-08-19T02:08:29.000Z' title='2023-08-19T02:08:29.000Z'>
+            2023-08-19 10:08
+          </time>
           <AiOutlineEye />
           <span>22353</span>
           <div className='hidden md:flex '>

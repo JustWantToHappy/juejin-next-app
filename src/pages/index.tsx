@@ -86,6 +86,7 @@ const Home: React.FC<Props> = ({ total, articles }) => {
           <VirtualList components={listData} extraRenderCount={10} />
         </div>
       </div>
+      <p className='text-center text-juejin-font-3 bg-juejin-bg pt-8'>已经到底了(๑•̀ω•́)ノ</p>
     </HomeLayout>
   )
 }

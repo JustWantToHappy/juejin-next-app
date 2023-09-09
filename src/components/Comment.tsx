@@ -66,8 +66,8 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
   if (isLoading) return <div className='px-8'><Skeleton /></div>
   return (
     <div
-      ref={commentRef}
-      id='comment'>
+      data-id='comment'
+      ref={commentRef}>
       <div className=' font-extrabold text-xl '>
         <span onClick={() => setSize(size => size + 1)}>评论</span>
       </div>
