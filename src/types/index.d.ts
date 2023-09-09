@@ -49,5 +49,5 @@ export type ArticleType = {
   readCount: number;
   desc: string;
   user: User;
-  tags:Tag[]
+  ArticleTag: Array<{tag:Tag}>
 }

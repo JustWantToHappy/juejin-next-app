@@ -72,29 +72,29 @@ model Profile {
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   gender Gender
   age    Int
-  
+
   phone    String
   birthday DateTime?
   level    Int       @default(0)
 }
 
 model Article {
-  id           String    @id @default(uuid())
+  id           String       @id @default(uuid())
   title        String
-  content      String    @db.Text
-  desc         String    @db.Text
-  likeCount    Int       @default(0)
-  collectCount Int       @default(0)
-  commentCount Int       @default(0)
-  readCount    Int       @default(0)
-  updatedAt    DateTime  @default(now())
-  createdAt    DateTime  @default(now())
-  tags         Tag[]
-  comments     Comment[]
-  likes        Like[]
-  collections  Collect[]
-  user         User?     @relation(fields: [userId], references: [id])
+  content      String       @db.Text
+  desc         String       @db.Text
+  likeCount    Int          @default(0)
+  collectCount Int          @default(0)
+  commentCount Int          @default(0)
+  readCount    Int          @default(0)
+  updatedAt    DateTime     @default(now())
+  createdAt    DateTime     @default(now())
+  Comments     Comment[]
+  Likes        Like[]
+  Collections  Collect[]
+  user         User?        @relation(fields: [userId], references: [id])
   userId       String?
+  ArticleTag   ArticleTag[]
 }
 
 model Nav {
@@ -103,11 +103,20 @@ model Nav {
   name String @unique
 }
 
+model ArticleTag {
+  id        Int     @id @default(autoincrement())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id])
+  tagId     Int
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  @@map("article_to_tag")
+}
+
 model Tag {
-  id       Int       @id @default(autoincrement())
-  key      String    @unique
-  name     String    @unique
-  articles Article[]
+  id         Int          @id @default(autoincrement())
+  key        String       @unique
+  name       String       @unique
+  ArticleTag ArticleTag[]
 }
 
 model Like {
@@ -115,7 +124,7 @@ model Like {
   createdAt DateTime @default(now())
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
-  article   Article? @relation(fields: [articleId], references: [id])
+  Article   Article? @relation(fields: [articleId], references: [id])
   articleId String?
 
   @@unique([userId, articleId])
@@ -125,7 +134,7 @@ model Collect {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  article   Article  @relation(fields: [articleId], references: [id])
+  Article   Article  @relation(fields: [articleId], references: [id])
   articleId String
 
   @@unique([userId, articleId])
@@ -138,7 +147,7 @@ model Comment {
   parentId  Int      @default(0)
   rootId    Int      @default(0)
   createdAt DateTime @default(now())
-  article   Article  @relation(fields: [articleId], references: [id])
+  Article   Article  @relation(fields: [articleId], references: [id])
   articleId String
   user      User     @relation(fields: [userId], references: [id]) //回复者
   userId    String

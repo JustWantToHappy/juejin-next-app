@@ -22,11 +22,11 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ total, articles }) => {
-  console.info(articles, 'test')
   const router = useRouter()
   const [pageSize, setPageSize] = React.useState(10)
   const [listData, setListData] = React.useState<React.ReactElement[]>(articles.map((article, index) => {
-    const { id, desc, title, tags, readCount, user, likeCount } = article
+    const { id, desc, title, ArticleTag, readCount, user, likeCount } = article
+    const tags = ArticleTag.map(obj => obj.tag)
     return <Entry
       key={id}
       data-index={index}

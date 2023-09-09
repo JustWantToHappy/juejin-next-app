@@ -42,9 +42,11 @@ const BasicLayout: React.FC<React.PropsWithChildren> = (props) => {
 
   return (<main className='' >
     {open && <SignIn />}
-    <Header />
-    <div className='my-[--nav-header-height]'></div>
-    <div className='pt-6'>{props.children}</div>
+    {router.pathname !== '/editor' && <>
+      <Header />
+      <div className='my-[--nav-header-height]'></div>
+    </>}
+    <div className={`${router.pathname!=='/editor'&&'pt-6'}`}>{props.children}</div>
     <FloatButtons showUpIcon={showUpIcon} />
   </main >)
 }

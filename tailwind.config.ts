@@ -29,6 +29,7 @@ const config: Config = {
       'juejin-brand-3-click': '#0060dd',
       'juejin-brand-4-disable': '#abcdff',
       'juejin-brand-5-light': '#eaf2ff',
+      'juejin-brand-6-light':'#e8f3ff',
       //蒙层
       'juejin-mask-1': 'rgba(0,0,0,0.4)',
       'juejin-mask-2': '#fff',
@@ -49,6 +50,7 @@ const config: Config = {
       'juejin-danger-2-deep': '#cb2634',
       'juejin-danger-3-light':'#fff2ff',
       //other
+      'juejin-editor-border':'#e1e4e8',
       'juejin-nav-title': '#86909c',
       'juejin-comment-bg': 'rgba(244, 245, 245, 0.5)',
       'transparent':'transparent'

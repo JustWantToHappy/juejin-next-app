@@ -21,6 +21,10 @@
     --content-min-width:500px;
     --login-box-width:350px;
     --login-box-padding:1.5rem;
+    --editor-title-height:80px;
+    --editor-footer-height:30px;
+    --ql-toolbar-height:40px;
+    --ql-container-height:calc(100vh - var(--ql-toolbar-height) - var(--editor-title-height) - var(--editor-footer-height));
   }
   body{
     @apply bg-juejin-bg;
@@ -106,7 +110,9 @@
 
 .ql-toolbar.ql-snow{
   border:none !important;
+  border-top:1px solid #ccc;
 }
+
 
 .ql-editor{
   border-bottom:0px !important;
@@ -115,3 +121,17 @@
 .ql-container.ql-snow{
   border-color: transparent !important;
 }
+
+.ql-editor::-webkit-scrollbar{
+  width:5px;
+}
+
+.ql-editor::-webkit-scrollbar-track{
+  border-radius: 5px;
+}
+
+.ql-editor::-webkit-scrollbar-thumb{
+  background-color: rgba(128, 128, 128, 0.674);
+  border-radius: 5px;
+}
+
