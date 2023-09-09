@@ -72,6 +72,7 @@ const Header = () => {
     if (isSignOut) signOut()
   }
 
+  
   return (
     <header
       style={{ top: `${header.close ? '-60px' : '0px'}` }}
