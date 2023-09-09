@@ -9,12 +9,16 @@ type Data = {
 
 interface Props{
   data: Data
-  setData(data:Data):void
+  setData(data: Data): void
+  clearData():void
 } 
 
 export const editorStore = create(persist<Props>(set => ({
   data: { title:'',desc:'',content:'' },
   setData(data: Data) {
     set((state)=>({data:{...state.data,...data}}))
+  },
+  clearData() {
+    set(()=>({data:{}}))
   }
 }), { name: 'editor' }))

@@ -1,10 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
-import useSwr from 'swr'
 import { Get } from '@/utils'
 import type { ArticleType } from '@/types'
 import { useRouter } from 'next/router'
 import Entry from '@/components/Entry'
+import type { Fetcher } from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { GetServerSideProps } from 'next'
 import VirtualList from '@/components/VirtualList'
@@ -21,10 +21,8 @@ interface Props {
   articles: ArticleType[]
 }
 
-const Home: React.FC<Props> = ({ total, articles }) => {
-  const router = useRouter()
-  const [pageSize, setPageSize] = React.useState(10)
-  const [listData, setListData] = React.useState<React.ReactElement[]>(articles.map((article, index) => {
+const fetchEntries = (articles: ArticleType[]) => {
+  return articles.map((article, index) => {
     const { id, desc, title, ArticleTag, readCount, user, likeCount } = article
     const tags = ArticleTag.map(obj => obj.tag)
     return <Entry
@@ -36,20 +34,37 @@ const Home: React.FC<Props> = ({ total, articles }) => {
       desc={desc}
       likeCount={likeCount}
       readCount={readCount}
-      author={user.name ?? ''}
-      image='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' />
-  }))
+      author={user?.name ?? ''}
+      image={`https://www.dmoe.cc/random.php?id=${id}`} />
+  })
+}
+
+const Home: React.FC<Props> = ({ total, articles }) => {
+  const router = useRouter()
+  const [pageSize, setPageSize] = React.useState(10)
+  const fetcher: Fetcher<Props> = (url: string) => Get<Props>(url)
+  const { setSize, data, isLoading } = useSWRInfinite((index) => `/api/article?current=${index + 1}&pageSize=${pageSize}`, fetcher)
+  const [listData, setListData] = React.useState<React.ReactElement[]>(fetchEntries(articles))
+
+  const currentTotal = React.useMemo(() => {
+    return data?.reduce((currentValue, { articles }) => currentValue + articles.length, 0) ?? 0
+  }, [data])
 
   React.useEffect(() => {
-
-    //setListData(() => Array(1000).fill(1).map((_, index) => <Entry id={index % 2 === 1 ? '13815bc6-f4ba-4b21-9b83-174d6183583b' : 'f635ab58-56f0-4661-af7f-b984384f0229'} key={index} data-index={index} title='🔥小册上新 | TypeScript 框架开发实战' likes={50} tags={[{ key: '前端', name: '前端' }, { key: '后端', name: '后端' }]} readCount={50} author='掘金小册' content='学习服务端 Web 框架最好的方式，就是从头写一个 Web 框架。与其按部就班的学习，开发框架本身更高效！' image='http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg' />))
-  }, [router])
+    if ((data?.length ?? 0) > 1) {
+      const articles: ArticleType[] = []
+      data?.map(({ articles: arr }) => {
+        articles.push(...arr)
+      })
+      setListData(fetchEntries(articles))
+    }
+  }, [data])
 
   React.useEffect(() => {
     const handleScrollToBottom = async () => {
       const scrollToBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight
-      if (scrollToBottom) {
-
+      if (scrollToBottom && currentTotal < total) {
+        setSize(size => size + 1)
       }
     }
 
@@ -58,7 +73,8 @@ const Home: React.FC<Props> = ({ total, articles }) => {
     return function () {
       window.removeEventListener('scroll', handleScrollToBottom)
     }
-  }, [])
+  }, [setSize, currentTotal, total])
+
 
   return (
     <HomeLayout>

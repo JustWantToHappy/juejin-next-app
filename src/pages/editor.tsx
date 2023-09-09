@@ -24,7 +24,7 @@ const modules = {
 const Eidtor = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  const { data, setData } = editorStore()
+  const { data, setData, clearData } = editorStore()
   const editorRef = React.useRef<ReactQuill.UnprivilegedEditor>()
   const [show, setShow] = React.useState(false)
   const fetcher: Fetcher<Tag[]> = (url: string) => Get<Tag[]>(url)
@@ -71,16 +71,17 @@ const Eidtor = () => {
       alert('文章摘要不能低于50字')
       return
     }
-    router.replace('/')
-    //if ((await Post('/api/article',
-    //  {
-    //    article: { ...data, userId: session?.user.id },
-    //    tags: selectedTags
-    //  })) === 'success') {
-    //  alert('发布文章成功!')
-    //} else {
-    //  alert('发布文章失败')
-    //}
+    if (session?.user.id && (await Post('/api/article',
+      {
+        article: { ...data, userId: session?.user.id },
+        tags: selectedTags
+      })) === 'success') {
+      clearData()
+      alert('发布文章成功!')
+      router.replace('/')
+    } else {
+      alert('发布文章失败')
+    }
   }
 
   React.useEffect(() => {
