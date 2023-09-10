@@ -19,9 +19,8 @@ const getStartIndex = (tops: number[], scrollTop: number, extraRenderCount: numb
   return Math.max(0, left - extraRenderCount - 1)
 }
 
-const getEndIndex = (tops: number[], scrollTop: number, extraRenderCount: number) => {
+const getEndIndex = (tops: number[], scrollTop: number, extraRenderCount: number, clientHeight: number) => {
   let left = 0, right = tops.length
-  const clientHeight = typeof window !== 'undefined' ? window.innerHeight : 0
   while (left < right) {
     const mid = left + (~~((right - left) / 2))
     if (tops[mid] < scrollTop + clientHeight) left = mid + 1
@@ -63,7 +62,9 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setScrollTop(window.scrollY)
+      if (containerRef.current) {
+        setScrollTop(Math.max(0, window.scrollY - containerRef.current.offsetTop))
+      }
     }
     window.addEventListener('scroll', handleScroll)
     return function () {
@@ -76,11 +77,11 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
 
   const getCurrentRenderItems = () => {
     const height = tops[tops.length - 1] ?? 0
+    const clientHeight = typeof window !== 'undefined' ? (containerRef.current ? window.innerHeight - containerRef.current.offsetTop : window.innerHeight) : 0
     const startIndex = getStartIndex(tops, scrollTop, extraRenderCount)
-    const endIndex = getEndIndex(tops, scrollTop, extraRenderCount)
+    const endIndex = getEndIndex(tops, scrollTop, extraRenderCount, clientHeight)
     return (<div
       style={{
-        //transform: `translateY(${scrollTop >= (containerRef.current?.offsetTop ?? 0) ? `-${containerRef.current?.offsetTop ?? 0}px` : '0px'})`,
         width: '100%',
         height: height + 'px'
       }}>

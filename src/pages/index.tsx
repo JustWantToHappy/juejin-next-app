@@ -38,6 +38,17 @@ const fetchEntries = (articles: ArticleType[]) => {
       author={user?.name ?? ''}
       image={`https://www.dmoe.cc/random.php?id=${id}`} />
   })
+  //return new Array(50).fill(1).map((_, index) => <Entry
+  //  key={index}
+  //  id={index}
+  //  data-index={index}
+  //  desc='这是有病是吧'
+  //  image={`https://www.dmoe.cc/random.php?id=${index}`}
+  //  author='JustWantToHappy'
+  //  likeCount={index}
+  //  readCount={index}
+  //  title={`这是标题${index}`}
+  //  tags={[]} />)
 }
 
 const Home: React.FC<Props> = ({ total, articles }) => {
@@ -77,12 +88,6 @@ const Home: React.FC<Props> = ({ total, articles }) => {
     }
   }, [setSize, currentTotal, total])
 
-  React.useEffect(() => {
-    if (router.query.callbackUrl) {
-      onOpen()
-      router.push('/')
-    }
-  }, [router, onOpen])
 
   return (
     <HomeLayout>
