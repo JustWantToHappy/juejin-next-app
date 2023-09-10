@@ -6,26 +6,21 @@ import { TimerRefContext } from '@/context'
 import { getElementTopOffset, parseFromHashURL } from '@/utils'
 
 type Props = {
+  active: number
   catelogue: CatelogueType[]
   smoothScroll?: boolean
   markdownContainer: HTMLDivElement | undefined
 }
 
-const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownContainer }) => {
+const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownContainer, active: activeItem }) => {
   const router = useRouter()
+  const catelogueRef = React.useRef<HTMLUListElement>()
+  const cateloguesRef = React.useRef<HTMLLIElement[]>([])
   const timerRef = React.useContext(TimerRefContext)
-  const catelogueRef = React.useRef<HTMLUListElement>(null)
   const [active, setActive] = React.useState(-1)
 
   const originClick = (event: React.MouseEvent) => {
     event.preventDefault()
-  }
-
-  //扩展function(实现高亮目录始终可视)
-  const scrollToTitleActiveLocation = (active: number) => {
-    if (catelogueRef.current) {
-
-    }
   }
 
   const handleClickCatelogue = (event: React.MouseEvent) => {
@@ -40,55 +35,63 @@ const Catelogue: React.FC<Props> = ({ catelogue, smoothScroll = false, markdownC
       }
       setActive(parseInt(index ?? '0'))
       router.push(hash)
-      if (timerRef.current) {
-        clearTimeout(timerRef.current)
-      }
-      timerRef.current = setTimeout(() => {
-        timerRef.current = null
-      }, 300)
     }
   }
 
   React.useEffect(() => {
-    const handleHashChangeComplete = () => {
-      const index = parseFromHashURL(router.asPath)
-      if (!isNaN(index)) {
-        setActive(index)
+    if (activeItem >= 0) {
+      setActive(activeItem)
+      const target = cateloguesRef.current[activeItem]
+      if (target && catelogueRef.current) {
+        const offset = target.offsetTop - catelogueRef.current.clientHeight / 3
+        catelogueRef.current.scrollTo({ top: offset })
       }
     }
-    router.events.on('hashChangeComplete', handleHashChangeComplete)
-    return function () {
-      router.events.off('hashChangeComplete', handleHashChangeComplete)
-    }
-  }, [router])
+  }, [activeItem])
+
+  //React.useEffect(() => {
+  //  const handleHashChangeComplete = () => {
+  //    const index = parseFromHashURL(router.asPath)
+  //    if (!isNaN(index)) {
+  //      setActive(index)
+  //    }
+  //  }
+  //  router.events.on('hashChangeComplete', handleHashChangeComplete)
+  //  return function () {
+  //    router.events.off('hashChangeComplete', handleHashChangeComplete)
+  //  }
+  //}, [router])
 
   //初始化页面同步hash
   React.useEffect(() => {
-    if (markdownContainer && timerRef) {
+    if (markdownContainer) {
       const index = parseFromHashURL(window.location.hash)
       if (!isNaN(index)) {
         const titleEle = markdownContainer.querySelector(`[data-id='${location.hash.slice(1)}']`) as HTMLElement
         if (titleEle) {
           const offsetTop = getElementTopOffset(titleEle)
           window.scrollTo({ top: offsetTop - 60, behavior: smoothScroll ? 'smooth' : 'auto' })
-          timerRef.current = setTimeout(() => {
-            timerRef.current = null
-          }, 300)
         }
         setActive(index)
       }
     }
-  }, [markdownContainer, smoothScroll, timerRef])
-
+  }, [markdownContainer, smoothScroll])
 
   const generateCatelogueTree = (catelogue: CatelogueType[], level: number) => {
     return (
       <ul
-        ref={catelogueRef}
-        className={`text-md max-h-[--catelogue-max-height] overflow-auto scroll-container mr-1 ${!level ? 'mt-3' : ''}`}>
+        ref={current => {
+          if (!level) catelogueRef.current = current as HTMLUListElement
+        }}
+        className={`text-md ${!level && 'max-h-[--catelogue-max-height]'} transition-all duration-300 overflow-auto scroll-container mr-1 ${!level ? 'mt-3' : ''}`}>
         {catelogue.map((item) => (
           <React.Fragment key={item.index}>
             <li
+              ref={current => {
+                if (!cateloguesRef.current[item.index]) {
+                  cateloguesRef.current[item.index] = current as HTMLLIElement
+                }
+              }}
               data-index={item.index}
               onClick={handleClickCatelogue}
               style={{ paddingLeft: `${16 * level}px` }}

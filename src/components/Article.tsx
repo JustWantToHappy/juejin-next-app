@@ -60,6 +60,8 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue, rea
         ref={markdownRef}
         className=' mt-8  markdown-body'>
       </div>
+      <div id='comment'>
+      </div>
     </article>
   )
 }

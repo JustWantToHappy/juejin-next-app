@@ -43,6 +43,7 @@ const Post = (props: ArticleType & { user: User | null }) => {
   const router = useRouter()
   const positionsRef = React.useRef<Position[]>()
   const markdownRef = React.useRef<HTMLDivElement>()
+  const [active, setActive] = React.useState(-1)
   const [catelogue, setCatelogue] = React.useState<CatelogueType[]>([])
   const timerRef = React.useRef<null | ReturnType<typeof setTimeout>>(null)
 
@@ -61,7 +62,6 @@ const Post = (props: ArticleType & { user: User | null }) => {
   }, [])
 
   const handleScroll = useDebouce(() => {
-    if (timerRef.current) return
     const offset = window.scrollY
     const positions = positionsRef.current
     if (markdownRef.current && positions) {
@@ -75,10 +75,10 @@ const Post = (props: ArticleType & { user: User | null }) => {
         }
       }
       if (~ans) {
-        router.push(`#${positions[ans].id}`)
+        setActive(ans)
       }
     }
-  }, 50)
+  }, 20)
 
   React.useEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -113,6 +113,7 @@ const Post = (props: ArticleType & { user: User | null }) => {
             </div>
             <div className={` pt-4  mt-[--layer-gap] layer transition-top duration-300 sticky  ${close ? 'top-[--aside-top]' : 'top-[84px]'}`}>
               <Catelogue
+                active={active}
                 catelogue={catelogue}
                 markdownContainer={markdownRef.current}
                 smoothScroll={true} />
