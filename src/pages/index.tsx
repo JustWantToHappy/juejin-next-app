@@ -7,6 +7,7 @@ import Entry from '@/components/Entry'
 import type { Fetcher } from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { GetServerSideProps } from 'next'
+import { loginModal } from '@/store'
 import VirtualList from '@/components/VirtualList'
 import HomeLayout from '@/components/layouts/HomeLayout'
 
@@ -41,6 +42,7 @@ const fetchEntries = (articles: ArticleType[]) => {
 
 const Home: React.FC<Props> = ({ total, articles }) => {
   const router = useRouter()
+  const { onOpen } = loginModal()
   const [pageSize, setPageSize] = React.useState(10)
   const fetcher: Fetcher<Props> = (url: string) => Get<Props>(url)
   const { setSize, data, isLoading } = useSWRInfinite((index) => `/api/article?current=${index + 1}&pageSize=${pageSize}`, fetcher)
@@ -75,12 +77,18 @@ const Home: React.FC<Props> = ({ total, articles }) => {
     }
   }, [setSize, currentTotal, total])
 
+  React.useEffect(() => {
+    if (router.query.callbackUrl) {
+      onOpen()
+      router.push('/')
+    }
+  }, [router, onOpen])
 
   return (
     <HomeLayout>
       <div>
         <Head>
-          <title>稀土掘金</title>
+          <title>稀土掘金 - 开发测试版本</title>
         </Head>
         <div>
           <VirtualList components={listData} extraRenderCount={10} />

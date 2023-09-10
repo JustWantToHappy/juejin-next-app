@@ -11,10 +11,10 @@ import { useSession } from 'next-auth/react'
 import type { CatelogueType } from '@/types'
 import { TimerRefContext } from '@/context'
 import { useDebouce, useThrottle } from '@/hooks'
-import { Article as ArticleType } from 'prisma/prisma-client'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import { isHeadingEle, getElementTopOffset } from '@/utils'
+import { Article as ArticleType, User } from 'prisma/prisma-client'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`${process.env.API_URL}/api/article`)
@@ -37,7 +37,7 @@ type Position = {
   offsetTop: number
 }
 
-const Post = (props: ArticleType) => {
+const Post = (props: ArticleType & { user: User | null }) => {
   const { data: session } = useSession()
   const { close } = headerStore()
   const router = useRouter()

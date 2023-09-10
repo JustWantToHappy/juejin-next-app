@@ -6,7 +6,6 @@ import useSwr, { Fetcher } from 'swr'
 import { Get } from '@/utils'
 import { useRouter } from 'next/router'
 import InputSearch from './InputSearch'
-import VipSvg from '@/assets/img/vip.svg'
 import { useSession, signOut } from 'next-auth/react'
 import JuejinSvg from '../../public/juejin.svg'
 import { headerStore, loginModal } from '@/store'
@@ -14,7 +13,7 @@ import JuejinSmallSvg from '../../public/juejin-small.svg'
 import { AiFillCaretDown, AiFillBell } from 'react-icons/ai'
 
 const Header = () => {
-  const { data: session, status, update } = useSession()
+  const { data: session } = useSession()
   const header = headerStore()
   const router = useRouter()
   const { onOpen } = loginModal()
@@ -72,7 +71,14 @@ const Header = () => {
     if (isSignOut) signOut()
   }
 
-  
+  const write = () => {
+    if (!session) {
+      onOpen()
+      return
+    }
+    router.push('/editor')
+  }
+
   return (
     <header
       style={{ top: `${header.close ? '-60px' : '0px'}` }}
@@ -111,14 +117,10 @@ const Header = () => {
               <li className='flex overflow-hidden gap-x-6 items-center '>
                 <InputSearch />
                 <button
-                  onClick={() => router.push('/editor')}
+                  onClick={write}
                   className='btn-primary hidden sm:block'>
                   创作者中心
                 </button>
-              </li>
-              <li className='hidden md:flex items-center text-juejin-font-3 ml-6 '>
-                <Image src={VipSvg} alt='vip' title='juejin-vip' />
-                <span>会员</span>
               </li>
               <li className='ml-6 hidden sm:block group relative'>
                 {!session ? <button

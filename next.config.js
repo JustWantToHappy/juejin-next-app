@@ -49,10 +49,6 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'rzl96k3z6.hn-bkt.clouddn.com',
-      },
-      {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com'
       },

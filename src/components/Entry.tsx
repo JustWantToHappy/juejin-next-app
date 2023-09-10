@@ -33,7 +33,7 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
         </div>
         <div className='flex justify-between items-center'>
           <ul className='flex gap-x-4'>
-            <li>{author}</li>
+            <li className='ellipsis'>{author}</li>
             <li className=' font-thin text-juejin-gray-1-1'>|</li>
             <li className='flex items-center gap-x-2'>
               <AiOutlineEye className='text-lg' />
@@ -51,14 +51,14 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
             {tags.map(tag => <Link
               key={tag.key}
               href='/tag'
-              className='px-1 bg-juejin-gray-1-2 layer hover:text-juejin-brand-1-normal'>
+              className='px-1 bg-juejin-gray-1-2 layer hover:text-juejin-brand-1-normal ellipsis'>
               {tag.name}
             </Link>)}
           </div>
         </div>
       </div>
-      <div className='w-32 relative h-3/4 '>
-        <Image src={image} alt={title} fill style={{ objectFit: 'cover' }} priority />
+      <div className='w-32  relative h-3/4 overflow-hidden'>
+        <Image src={image} alt={title} width={200} height={100} />
       </div>
     </li>
   )

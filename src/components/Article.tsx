@@ -4,15 +4,15 @@ import dayjs from 'dayjs'
 import { AiOutlineEye } from 'react-icons/ai'
 import type { CatelogueType } from '@/types'
 import { generateCatelogue, isHeadingEle } from '@/utils'
-import type { Article as ArticleType } from 'prisma/prisma-client'
+import type { Article as ArticleType, User } from 'prisma/prisma-client'
 
-type Props = ArticleType & {
+type Props = ArticleType & { user: User | null } & {
   getCatelogue: (catelogue: CatelogueType[], container: HTMLDivElement) => void
 }
 
-const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) => {
+const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue, readCount, user }) => {
   const markdownRef = React.useRef<HTMLDivElement>(null)
-
+  const dataStr = dayjs(createdAt).format('YYYY MM-DD HH:mm:ss')
   React.useEffect(() => {
     if (markdownRef.current) {
       const catelogue: CatelogueType[] = []
@@ -39,12 +39,14 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue }) =
           {title}
         </h1>
         <div className='flex  gap-x-4 text-juejin-font-3 items-center'>
-          <Link href='/' className='text-juejin-font-2 hover:text-juejin-brand-2-hover'>JustWantToHappy</Link>
-          <time dateTime='2023-08-19T02:08:29.000Z' title='2023-08-19T02:08:29.000Z'>
-            2023-08-19 10:08
+          <Link href='/' className='text-juejin-font-2 hover:text-juejin-brand-2-hover'>
+            {user?.name}
+          </Link>
+          <time dateTime={dataStr} title={dataStr}>
+            {dataStr}
           </time>
           <AiOutlineEye />
-          <span>22353</span>
+          <span>{readCount}</span>
           <div className='hidden md:flex '>
             <small>&emsp;|&emsp;</small>
             <span className='hidden md:inline'>
