@@ -104,14 +104,18 @@ const CommentItem: React.FC<Props> = ({
             </div>
             <RiMoreLine className='cursor-pointer' />
           </div>
-          {activeCommentInput === id && <CommentInput
-            parentId={id}
-            rootId={rootId}
-            articleId={articleId}
-            updateComments={updateComments}
-            updateActiveCommentInput={updateActiveCommentInput}
-            placeholder={`回复${user?.name}...`}
-            defaultFocus />}
+          <div
+            className=' transition-height duration-150'
+            style={{ overflow: 'hidden', height: activeCommentInput === id ? '120px' : '0px' }}>
+            <CommentInput
+              active={activeCommentInput === id}
+              parentId={id}
+              rootId={rootId}
+              articleId={articleId}
+              updateComments={updateComments}
+              updateActiveCommentInput={updateActiveCommentInput}
+              placeholder={`回复${user?.name}...`} />
+          </div>
         </div>
         {children}
       </div>

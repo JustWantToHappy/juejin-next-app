@@ -5,8 +5,8 @@ import { MdOutlineMood } from 'react-icons/md'
 import { useSession } from 'next-auth/react'
 
 interface Props {
+  active?: boolean
   articleId: string
-  defaultFocus?: boolean
   updateComments?: () => void
   updateActiveCommentInput?: (active: number) => void
   parentId?: number
@@ -16,7 +16,7 @@ interface Props {
 
 const CommentInput: React.FC<Props> = ({
   articleId,
-  defaultFocus,
+  active = false,
   updateComments,
   updateActiveCommentInput,
   parentId = 0,
@@ -80,12 +80,6 @@ const CommentInput: React.FC<Props> = ({
   }
 
   React.useEffect(() => {
-    if (inputRef.current && defaultFocus) {
-      inputRef.current.focus()
-    }
-  }, [defaultFocus])
-
-  React.useEffect(() => {
     if (inputRef.current) {
       const style = document.createElement('style')
       document.head.appendChild(style)
@@ -93,6 +87,10 @@ const CommentInput: React.FC<Props> = ({
       sheet?.insertRule(`.${'comment-input' + parentId}::before{content:'${placeholder}'}`)
     }
   }, [placeholder, parentId])
+
+  React.useEffect(() => {
+    if (active && inputRef.current) inputRef.current.focus()
+  }, [active])
 
   return (
     <div onClick={handleClick}>
