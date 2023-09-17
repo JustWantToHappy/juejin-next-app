@@ -33,6 +33,7 @@ const getEndIndex = (tops: number[], scrollTop: number, extraRenderCount: number
 export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { preHeight = 50, extraRenderCount = 4, components, wideSkeleton = false } = props
   const heightsRef = React.useRef<number[]>([])
+  const [loading, setLoading] = React.useState(true)
   const [scrollTop, setScrollTop] = React.useState(0)
   const [tops, setTops] = React.useState<number[]>([])
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -66,6 +67,7 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
         setScrollTop(Math.max(0, window.scrollY - containerRef.current.offsetTop))
       }
     }
+    setLoading(false)
     window.addEventListener('scroll', handleScroll)
     return function () {
       window.removeEventListener('scroll', handleScroll)
@@ -98,7 +100,7 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
     </div>)
   }
 
-  if (!components.length) {
+  if (!components.length || loading) {
     return wideSkeleton ? <Skeleton /> : <div style={{ padding: '0 20px' }}><Skeleton /></div>
   }
 

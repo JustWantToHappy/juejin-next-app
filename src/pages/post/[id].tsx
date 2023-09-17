@@ -1,7 +1,5 @@
 import React from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { headerStore } from '@/store'
 import Avatar from '@/components/Avatar'
 import Comment from '@/components/Comment'
@@ -40,7 +38,6 @@ type Position = {
 const Post = (props: ArticleType & { user: User | null }) => {
   const { data: session } = useSession()
   const { close } = headerStore()
-  const router = useRouter()
   const positionsRef = React.useRef<Position[]>()
   const markdownRef = React.useRef<HTMLDivElement>()
   const [active, setActive] = React.useState(-1)
