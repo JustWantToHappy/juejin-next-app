@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prismadb'
-import { Method} from '@/constants'
+import { Method } from '@/constants'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export const config = {

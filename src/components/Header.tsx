@@ -115,7 +115,7 @@ const Header = () => {
           <li className='absolute right-4'>
             <ul className='flex h-11'>
               <li className='flex overflow-hidden gap-x-6 items-center '>
-                <InputSearch />
+                {/*<InputSearch />*/}
                 <button
                   onClick={write}
                   className='btn-primary hidden sm:block'>
@@ -128,7 +128,7 @@ const Header = () => {
                   className='btn-secondary'>
                   登录&nbsp;|&nbsp;注册
                 </button> : <div className='flex items-center gap-x-5 h-full'>
-                  <AiFillBell className=' text-2xl text-juejin-font-3 hover:text-juejin-font-2 cursor-pointer' />
+                  {/*<AiFillBell className=' text-2xl text-juejin-font-3 hover:text-juejin-font-2 cursor-pointer' />*/}
                   <div className='relative group'>
                     <Image
                       src={session?.user?.image ?? 'http://rzl96k3z6.hn-bkt.clouddn.com/34cee5ff5ab558fd5d3f9290d634b7f5.jpg'}

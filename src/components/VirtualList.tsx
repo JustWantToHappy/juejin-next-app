@@ -67,7 +67,9 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
         setScrollTop(Math.max(0, window.scrollY - containerRef.current.offsetTop))
       }
     }
-    setLoading(false)
+    setTimeout(() => {
+      setLoading(false)
+    }, 100)
     window.addEventListener('scroll', handleScroll)
     return function () {
       window.removeEventListener('scroll', handleScroll)

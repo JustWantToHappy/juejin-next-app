@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author":"JustWantToHappy <1302755003@qq.com>",
+  "contributors": ["JustWantToHappy"],
   "prisma": {
     "seed": "node prisma/seed.js"
   },

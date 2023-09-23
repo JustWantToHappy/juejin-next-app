@@ -2,12 +2,10 @@ import React from 'react'
 import Head from 'next/head'
 import { Get } from '@/utils'
 import type { ArticleType } from '@/types'
-import { useRouter } from 'next/router'
 import Entry from '@/components/Entry'
 import type { Fetcher } from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { GetServerSideProps } from 'next'
-import { loginModal } from '@/store'
 import VirtualList from '@/components/VirtualList'
 import HomeLayout from '@/components/layouts/HomeLayout'
 
@@ -52,8 +50,6 @@ const fetchEntries = (articles: ArticleType[]) => {
 }
 
 const Home: React.FC<Props> = ({ total, articles }) => {
-  const router = useRouter()
-  const { onOpen } = loginModal()
   const [pageSize, setPageSize] = React.useState(10)
   const fetcher: Fetcher<Props> = (url: string) => Get<Props>(url)
   const { setSize, data, isLoading } = useSWRInfinite((index) => `/api/article?current=${index + 1}&pageSize=${pageSize}`, fetcher)
@@ -75,7 +71,7 @@ const Home: React.FC<Props> = ({ total, articles }) => {
 
   React.useEffect(() => {
     const handleScrollToBottom = async () => {
-      const scrollToBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight
+      const scrollToBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight
       if (scrollToBottom && currentTotal < total) {
         setSize(size => size + 1)
       }

@@ -1,7 +1,15 @@
-//export { default} from 'next-auth/middleware'
+import { withAuth} from 'next-auth/middleware'
 
-//export const config = {
-//  matcher:['/editor']
-//}
-const middelware=function(){}
-export default middelware
+export default withAuth({
+  callbacks: {
+    authorized({ req, token, }) {
+      console.info(token,req,'token')
+      return !!token
+    },
+  },
+})
+
+
+export const config = {
+  matcher:['/editor']
+}
