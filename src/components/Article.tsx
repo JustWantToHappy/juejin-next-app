@@ -13,10 +13,10 @@ type Props = ArticleType & { user: User | null } & {
 const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue, readCount, user }) => {
   const markdownRef = React.useRef<HTMLDivElement>(null)
   const dataStr = dayjs(createdAt).format('YYYY MM-DD HH:mm:ss')
+
   React.useEffect(() => {
     if (markdownRef.current) {
       const catelogue: CatelogueType[] = []
-      markdownRef.current.innerHTML = content as string
       Array.from(markdownRef.current.children).reduce((index, ele) => {
         if (isHeadingEle(ele.tagName)) {
           ele.setAttribute('data-id', `heading-${index}`)
@@ -58,7 +58,8 @@ const Article: React.FC<Props> = ({ title, createdAt, content, getCatelogue, rea
       </header>
       <div
         ref={markdownRef}
-        className=' mt-8  markdown-body'>
+        className=' mt-8  markdown-body'
+        dangerouslySetInnerHTML={{ __html: content }}>
       </div>
       <div id='comment'>
       </div>

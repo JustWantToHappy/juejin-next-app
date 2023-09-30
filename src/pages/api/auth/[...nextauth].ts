@@ -24,10 +24,10 @@ export const authOptions: NextAuthOptions = {
       }
       return session      
     },
-    async jwt({ token }) {
-      return token
-    }
   },
+  session: {
+    maxAge:30*24*60*60
+  }
 }
 
 export default NextAuth(authOptions)

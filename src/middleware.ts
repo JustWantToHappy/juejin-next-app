@@ -1,14 +1,16 @@
-import { withAuth} from 'next-auth/middleware'
+import { NextResponse } from 'next/server'
+import {getSession } from 'next-auth/react'
+import type { NextRequest } from 'next/server'
 
-export default withAuth({
-  callbacks: {
-    authorized({ req, token, }) {
-      console.info(token,req,'token')
-      return !!token
-    },
-  },
-})
-
+export async function middleware(request: NextRequest) {
+  const session = await getSession({req:request as any})
+  console.info(session,'session')
+  if (session) {
+    NextResponse.next()
+  } else {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+}
 
 export const config = {
   matcher:['/editor']
