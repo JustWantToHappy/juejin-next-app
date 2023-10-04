@@ -9,7 +9,7 @@ export default async function handler (req:NextApiRequest,res:NextApiResponse) {
   } else if (req.method === Method.GET && req.query) {
     const current=parseInt((req.query.current as string)??'0')
     const pageSize = parseInt((req.query.pageSize as string) ?? '0')
-    const total=await prisma.article.count()
+    const total = await prisma.article.count()
     const articles = await prisma.article.findMany({
       skip: (current - 1) * pageSize,
       take: pageSize,

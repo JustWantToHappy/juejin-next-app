@@ -28,6 +28,7 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
     return `/api/comment/${articleId}/?current=${index + 1}&pageSize=${pageSize}`
   }, fetcher)
 
+  console.info(data, 'data')
   const loadingMore = () => {
     setSize(size => size + 1)
   }
@@ -105,6 +106,7 @@ const Comment: React.FC<{ articleId: string }> = (props) => {
                     id={secondLevelComment.id}
                     rootId={firstLevelComment.id}
                     avatarSize={30}
+                    createdAt={secondLevelComment.createdAt}
                     updateComments={updateComments}
                     parent={secondLevelComment.parent}
                     updateActiveCommentInput={updateActiveCommentInput}

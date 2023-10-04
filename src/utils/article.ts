@@ -37,5 +37,4 @@ const generateCatelogue= (nodes:Element[],catelogue:CatelogueType[]) => {
   }
 }
 
-
 export {generateCatelogue,isHeadingEle,getElementTopOffset,parseFromHashURL}

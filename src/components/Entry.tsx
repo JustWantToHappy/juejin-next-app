@@ -58,7 +58,7 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
         </div>
       </div>
       <div className='w-32  relative h-3/4 overflow-hidden'>
-        <Image src={image} alt={title} width={200} height={100} />
+        <Image src={image} alt={title} width={200} height={100} priority />
       </div>
     </li>
   )

@@ -1,16 +1,16 @@
 import React from 'react'
 import Head from 'next/head'
 import { Get } from '@/utils'
-import type { ArticleType } from '@/types'
 import Entry from '@/components/Entry'
-import type { Fetcher } from 'swr'
-import useSWRInfinite from 'swr/infinite'
+import { useDebouce } from '@/hooks'
+import type { ArticleType } from '@/types'
 import { GetServerSideProps } from 'next'
 import VirtualList from '@/components/VirtualList'
 import HomeLayout from '@/components/layouts/HomeLayout'
 
+const initPageSize = 4
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/article?current=1&pageSize=20`)
+  const res = await fetch(`${process.env.API_URL}/api/article?current=1&pageSize=${initPageSize}`)
   const data = await res.json()
   return { props: { total: data?.total, articles: data?.articles } }
 }
@@ -36,54 +36,40 @@ const fetchEntries = (articles: ArticleType[]) => {
       author={user?.name ?? ''}
       image={`https://www.dmoe.cc/random.php?id=${id}`} />
   })
-  //return new Array(50).fill(1).map((_, index) => <Entry
-  //  key={index}
-  //  id={index}
-  //  data-index={index}
-  //  desc='这是有病是吧'
-  //  image={`https://www.dmoe.cc/random.php?id=${index}`}
-  //  author='JustWantToHappy'
-  //  likeCount={index}
-  //  readCount={index}
-  //  title={`这是标题${index}`}
-  //  tags={[]} />)
 }
 
 const Home: React.FC<Props> = ({ total, articles }) => {
-  const [pageSize, setPageSize] = React.useState(10)
-  const fetcher: Fetcher<Props> = (url: string) => Get<Props>(url)
-  const { setSize, data, isLoading } = useSWRInfinite((index) => `/api/article?current=${index + 1}&pageSize=${pageSize}`, fetcher)
-  const [listData, setListData] = React.useState<React.ReactElement[]>(fetchEntries(articles))
+  const [pageSize, setPageSize] = React.useState(2)
+  const [listData, setListData] = React.useState<ArticleType[]>(articles)
+  const [current, setCurrent] = React.useState(Math.floor(initPageSize / pageSize) + 1)
 
-  const currentTotal = React.useMemo(() => {
-    return data?.reduce((currentValue, { articles }) => currentValue + articles.length, 0) ?? 0
-  }, [data])
+  const fetchData = async () => {
+    const { articles } = await Get<Props>(`/api/article?current=${current}&pageSize=${pageSize}`)
+    if (articles.length) {
+      listData.push(...articles)
+      setListData([...listData])
+    }
+    setCurrent(current => current + 1)
+  }
+
+  const handleScrollToBottom = useDebouce(() => {
+    const scrollToBottom = window.scrollY + window.innerHeight + 1 >= document.body.scrollHeight
+    if (scrollToBottom) {
+      fetchData()
+    }
+  }, 100)
+
+  const entries = React.useMemo(() => {
+    return fetchEntries(listData)
+  }, [listData])
 
   React.useEffect(() => {
-    if ((data?.length ?? 0) > 1) {
-      const articles: ArticleType[] = []
-      data?.map(({ articles: arr }) => {
-        articles.push(...arr)
-      })
-      setListData(fetchEntries(articles))
-    }
-  }, [data])
-
-  React.useEffect(() => {
-    const handleScrollToBottom = async () => {
-      const scrollToBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight
-      if (scrollToBottom && currentTotal < total) {
-        setSize(size => size + 1)
-      }
-    }
-
     window.addEventListener('scroll', handleScrollToBottom)
 
     return function () {
       window.removeEventListener('scroll', handleScrollToBottom)
     }
-  }, [setSize, currentTotal, total])
-
+  }, [handleScrollToBottom])
 
   return (
     <HomeLayout>
@@ -92,7 +78,7 @@ const Home: React.FC<Props> = ({ total, articles }) => {
           <title>稀土掘金 - 开发测试版本</title>
         </Head>
         <div>
-          <VirtualList components={listData} extraRenderCount={10} />
+          <VirtualList components={entries} extraRenderCount={10} />
         </div>
       </div>
       <p className='text-center text-juejin-font-3 bg-juejin-bg pt-8'>已经到底了(๑•̀ω•́)ノ</p>

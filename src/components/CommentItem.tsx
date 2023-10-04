@@ -81,7 +81,7 @@ const CommentItem: React.FC<Props> = ({
                 </Link>
               </>}
             </div>
-            <span>{dayjs(createdAt).format('YYYY DD-MM HH:mm:ss')}</span>
+            <span>{dayjs(createdAt).format('YYYY MM-DD HH:mm:ss')}</span>
           </div>
           <p className='text-juejin-font-1'>{content}</p>
           {parent && <div className='flex bg-juejin-gray-2 px-3 py-1 border border-juejin-gray-1-1'>
