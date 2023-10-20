@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       httpOptions: {
-        timeout:5000
+        timeout:10000
       }
     }),
   ],

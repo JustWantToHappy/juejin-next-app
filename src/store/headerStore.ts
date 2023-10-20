@@ -10,4 +10,4 @@ export const headerStore = create<Header<()=>void>>(set => ({
   close: false,
   onClose: () => set({close:true}),
   onOpen:()=>set({close:false})
-}))
+}) )

@@ -34,9 +34,9 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
         <div className='flex justify-between items-center'>
           <ul className='flex gap-x-4'>
             <li className='ellipsis'>{author}</li>
-            <li className=' font-thin text-juejin-gray-1-1'>|</li>
+            <li className=' font-thin text-juejin-gray-1-1 hidden'>|</li>
             <li className='flex items-center gap-x-2'>
-              <AiOutlineEye className='text-lg' />
+              <AiOutlineEye className='text-lg ' />
               <span>{readCount}</span>
             </li>
             <li className='ml-2 flex items-center gap-x-2'>
@@ -47,7 +47,7 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
               <FiMoreHorizontal className='text-lg' />
             </li>
           </ul>
-          <div className='flex gap-x-4'>
+          <div className='hidden sm:flex gap-x-4'>
             {tags.map(tag => <Link
               key={tag.key}
               href='/tag'
@@ -57,8 +57,8 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
           </div>
         </div>
       </div>
-      <div className='w-32  relative h-3/4 overflow-hidden'>
-        <Image src={image} alt={title} width={200} height={100} priority />
+      <div className='w-[100px] relative h-3/4 overflow-hidden'>
+        <Image src={image} alt={title} sizes='100vw' fill priority objectFit='contain' className='rounded' />
       </div>
     </li>
   )

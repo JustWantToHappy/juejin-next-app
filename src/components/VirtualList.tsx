@@ -50,7 +50,7 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
     return tops
   }, [components.length, getVirtualItemHeight])
 
-  const setVritualItemHeight = React.useCallback((index: number, height: number) => {
+  const setVirtualItemHeight = React.useCallback((index: number, height: number) => {
     if (heightsRef.current[index] !== height) {
       heightsRef.current[index] = height
       setTops(getTops())
@@ -93,7 +93,7 @@ export const VirtualList = React.forwardRef<HTMLDivElement, Props>((props, ref) 
         const index = component.props['data-index']
         return <VirtualItem
           key={component.key}
-          setHeight={setVritualItemHeight}
+          setHeight={setVirtualItemHeight}
           style={{ position: 'absolute', width: '100%', top: `${tops[index]}px`, willChange: 'top' }}
           index={index}>
           {component}
