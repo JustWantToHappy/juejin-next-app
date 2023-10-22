@@ -16,19 +16,20 @@ type Res = {
   total: number
   listLength: number
 }
+
+const fetcher: Fetcher<Res> = (url: string) => Get<Res>(url)
+
 const Comment: React.FC<{ articleId: string }> = (props) => {
   const { articleId } = props
   const { onOpen } = loginModal()
   const commentRef = React.useRef<HTMLDivElement>(null)
   const { data: session } = useSession()
   const [pageSize, setPageSize] = React.useState(5)
-  const fetcher: Fetcher<Res> = (url: string) => Get<Res>(url)
   const [activeCommentInput, setActiveCommentInput] = React.useState(-1)
   const { data, setSize, isLoading, mutate } = useSWRInfinite((index) => {
     return `/api/comment/${articleId}/?current=${index + 1}&pageSize=${pageSize}`
   }, fetcher)
 
-  console.info(data, 'data')
   const loadingMore = () => {
     setSize(size => size + 1)
   }

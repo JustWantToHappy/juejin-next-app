@@ -1,5 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
+import { Patch } from '@/utils'
+import { useDebouce } from '@/hooks'
 import { headerStore } from '@/store'
 import Avatar from '@/components/Avatar'
 import Comment from '@/components/Comment'
@@ -8,7 +10,6 @@ import Catelogue from '@/components/Catelogue'
 import { useSession } from 'next-auth/react'
 import type { CatelogueType } from '@/types'
 import { TimerRefContext } from '@/context'
-import { useDebouce, useThrottle } from '@/hooks'
 import ArticleLayout from '@/components/layouts/ArticleLayout'
 import type { GetStaticProps, GetStaticPaths } from 'next'
 import { isHeadingEle, getElementTopOffset } from '@/utils'
@@ -84,10 +85,17 @@ const Post = (props: ArticleType & { user: User | null }) => {
     }
   }, [handleScroll])
 
+  React.useEffect(() => {
+    if (window.name === '') {
+      Patch(`/api/article/${props.id}/readcount`)
+      window.name = props.id
+    }
+  }, [props.id])
+
 
   return (
     <TimerRefContext.Provider value={timerRef}>
-      <ArticleLayout>
+      <ArticleLayout articleId={props.id} likeCount={props.likeCount}>
         <Head>
           <title>{props.title + ' - 掘金'}</title>
         </Head>
