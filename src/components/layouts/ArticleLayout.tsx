@@ -1,5 +1,3 @@
-import useSwr from 'swr'
-import type { Fetcher } from 'swr'
 import { Patch, Get } from '@/utils'
 import { loginModal } from '@/store'
 import { useSession } from 'next-auth/react'

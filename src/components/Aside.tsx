@@ -4,7 +4,7 @@ import { headerStore } from '@/store'
 import { useSession } from 'next-auth/react'
 
 const Aside = () => {
-const { close } = headerStore()
+  const { close } = headerStore()
   const { data: session } = useSession()
 
   return (
