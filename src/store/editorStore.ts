@@ -11,7 +11,7 @@ interface Props{
   data: Data
   setData(data: Data): void
   clearData():void
-} 
+}
 
 export const editorStore = create(persist<Props>(set => ({
   data: { title:'',desc:'',content:'' },

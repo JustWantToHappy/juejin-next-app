@@ -56,7 +56,7 @@ const CommentInput: React.FC<Props> = ({
         content: text,
         parentId,
         rootId
-      })
+			})
       inputRef.current.textContent = ''
       updateComments?.()
       setComment('')

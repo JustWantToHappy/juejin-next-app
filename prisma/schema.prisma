@@ -67,12 +67,12 @@ model User {
 }
 
 model Profile {
-  id     Int     @id @default(autoincrement())
-  userId String? @unique
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  gender Gender
-  age    Int
-
+  id       Int       @id @default(autoincrement())
+  userId   String?   @unique
+  user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gender   Gender
+  age      Int
+  password String
   phone    String
   birthday DateTime?
   level    Int       @default(0)
@@ -109,6 +109,7 @@ model ArticleTag {
   article   Article @relation(fields: [articleId], references: [id])
   tagId     Int
   tag       Tag     @relation(fields: [tagId], references: [id])
+
   @@map("article_to_tag")
 }
 
