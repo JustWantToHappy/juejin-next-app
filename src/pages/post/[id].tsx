@@ -24,7 +24,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (props) => {
   let article = null
-  if (props.params?.id) {
+	if (props.params?.id) {
     const res1 = await fetch(`${process.env.API_URL}/api/article/${props.params.id}`)
     article = await res1.json()
   }

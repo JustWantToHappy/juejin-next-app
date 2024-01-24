@@ -10,7 +10,13 @@ import HomeLayout from '@/components/layouts/HomeLayout'
 
 const initPageSize = 4
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/article?current=1&pageSize=${initPageSize}`)
+	/**
+	 * nextjs重写了fetch函数，fetch函数的第二个参数解释如下：
+	 * 在用户访问这个页面的时候，如果10s内没有新的请求，(也就会用户必须在这个页面待了10s之后，才会去验证)
+	 * nextjs后台就会重新验证并且获取
+	 * 最新的数据，这样下一次用户访问的时候就是最新的数据展示的页面了。
+	 */
+  const res = await fetch(`${process.env.API_URL}/api/article?current=1&pageSize=${initPageSize}`,{next:{revalidate:10}})
   const data = await res.json()
   return { props: { total: data?.total, articles: data?.articles } }
 }
@@ -34,7 +40,7 @@ const fetchEntries = (articles: ArticleType[]) => {
       likeCount={likeCount}
       readCount={readCount}
       author={user?.name ?? ''}
-      image={`https://www.dmoe.cc/random.php?id=${id}`} />
+      image={''} />
   })
 }
 

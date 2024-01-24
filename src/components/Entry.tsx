@@ -58,7 +58,7 @@ const Entry: React.FC<EntryType> = ({ id, title, desc, readCount, author, image,
         </div>
       </div>
       <div className='w-[100px] relative h-3/4 overflow-hidden'>
-        <Image src={image} alt={title} sizes='100vw' fill priority objectFit='contain' className='rounded' />
+        {/*<Image src={image} alt={title} sizes='100vw' fill priority objectFit='contain' className='rounded' />*/}
       </div>
     </li>
   )

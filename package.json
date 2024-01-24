@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "cross-env APP_ENV=development next dev",
+    "build": "cross-env APP_ENV=production  next build",
+    "start": "cross-env APP_ENV=production  next start",
     "lint": "next lint"
   },
   "author": "JustWantToHappy <1302755003@qq.com>",
@@ -24,6 +24,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.11.9",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
