@@ -45,7 +45,7 @@ const fetchEntries = (articles: ArticleType[]) => {
 				likeCount={likeCount}
 				readCount={readCount}
 				author={user?.name ?? ""}
-				image={""}
+				image={"https://api.paugram.com/wallpaper/"}
 			/>
 		);
 	});

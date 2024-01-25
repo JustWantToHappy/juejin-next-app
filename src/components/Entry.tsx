@@ -22,7 +22,7 @@ const Entry: React.FC<EntryType> = ({
 	return (
 		<li
 			onClick={navigatToArticle}
-			className="h-[100px] break-words text-left px-[--home-recommend-padding-x] pt-4 list-none duration-300 transition-all ease-in border-b-juejin-gray-1-1 border-b flex gap-x-4 cursor-pointer hover:bg-juejin-gray-3 leading-7 text-sm text-juejin-font-3 overflow-hidden items-center"
+			className="h-[100px] break-words text-left px-[--home-recommend-padding-x] list-none duration-300 transition-all ease-in border-b-juejin-gray-1-1 border-b flex gap-x-4 cursor-pointer hover:bg-juejin-gray-3 leading-7 text-sm text-juejin-font-3 overflow-hidden items-center"
 		>
 			<div className="flex-1">
 				<div>
@@ -74,9 +74,14 @@ const Entry: React.FC<EntryType> = ({
 					</div>
 				</div>
 			</div>
-			<div className="w-[100px] relative h-3/4 overflow-hidden">
-				{/*<Image src={image} alt={title} sizes='100vw' fill priority objectFit='contain' className='rounded' />*/}
-			</div>
+			<Image
+				src={image}
+				alt={title}
+				width={144}
+				height={81}
+				priority
+				objectFit="cover"
+			/>
 		</li>
 	);
 };
