@@ -1,16 +1,13 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals","plugin:prettier/recommended"],
   "rules": {
-    "quotes": [
-      "error",
-      "single",
-      {
-        "allowTemplateLiterals": true
-      }
-    ],
-    "semi": [
-      2,
-      "never"
-    ]
+		"prettier/prettier": [
+			"error",
+			{
+				"useTabs": true, // 使用制表符进行缩进
+				"tabWidth": 4, // 制表符的宽度为 4
+				"indent": "tab" // 强制使用制表符缩进
+			}
+		]
   }
 }

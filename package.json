@@ -6,7 +6,8 @@
     "dev": "cross-env APP_ENV=development next dev",
     "build": "cross-env APP_ENV=production  next build",
     "start": "cross-env APP_ENV=production  next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{ts,js,tsx,jsx}\""
   },
   "author": "JustWantToHappy <1302755003@qq.com>",
   "contributors": [
@@ -42,6 +43,9 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "postcss": "8.4.31"
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "postcss": "8.4.31",
+    "prettier": "^3.2.4"
   }
 }
