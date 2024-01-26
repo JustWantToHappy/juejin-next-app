@@ -1,3 +1,5 @@
+# 介绍
+当作next练手了~
 # 开始
 1. 安装依赖：yarn install
 2. 运行迁移文件：npx prisma migrate deploy
