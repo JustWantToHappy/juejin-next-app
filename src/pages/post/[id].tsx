@@ -7,7 +7,6 @@ import Avatar from "@/components/Avatar";
 import Comment from "@/components/Comment";
 import Article from "@/components/Article";
 import Catelogue from "@/components/Catelogue";
-import { useSession } from "next-auth/react";
 import type { CatelogueType } from "@/types";
 import { TimerRefContext } from "@/context";
 import ArticleLayout from "@/components/layouts/ArticleLayout";
@@ -27,10 +26,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (props) => {
 	let article = null;
 	if (props.params?.id) {
-		const res1 = await fetch(
+		const res = await fetch(
 			`${process.env.API_URL}/api/article/${props.params.id}`,
 		);
-		article = await res1.json();
+		article = await res.json();
 	}
 	return { props: article, revalidate: 60 };
 };
@@ -41,7 +40,6 @@ type Position = {
 };
 
 const Post = (props: ArticleType & { user: User | null }) => {
-	const { data: session } = useSession();
 	const { close } = headerStore();
 	const positionsRef = React.useRef<Position[]>();
 	const markdownRef = React.useRef<HTMLDivElement>();
@@ -118,7 +116,10 @@ const Post = (props: ArticleType & { user: User | null }) => {
 					</div>
 					<div className="w-[--home-aside-width] hidden lg:block">
 						<div className="layer h-[100px] py-4 px-3 flex items-center gap-x-4">
-							<Avatar url={session?.user.image} size={50} />
+							<Avatar
+								url={(props.user?.image as string) ?? ""}
+								size={50}
+							/>
 							<div className="flex flex-col gap-y-2">
 								<span>JustWantToHappy</span>
 								<span className="text-juejin-font-3">学生</span>
