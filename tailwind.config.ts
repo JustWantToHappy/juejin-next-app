@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors"; //tailwind提供的默认样式
+//import colors from "tailwindcss/colors"; //tailwind提供的默认样式
 
 const config: Config = {
 	content: [
@@ -9,7 +9,7 @@ const config: Config = {
 	],
 	theme: {
 		colors: {
-			...colors,
+			//...colors,
 			//字体
 			"juejin-font-1": "#252933",
 			"juejin-font-2": "#515767",

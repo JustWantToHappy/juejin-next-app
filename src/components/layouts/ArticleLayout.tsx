@@ -74,10 +74,10 @@ const ArticleLayout: React.FC<
 		}
 	}, [likeCount]);
 
-	React.useLayoutEffect(() => {
+	React.useEffect(() => {
 		(async () => {
 			const data = await Get<string>(
-				`/api/like?userId=${session?.user.id}&articleId=${props.articleId}`,
+				`/api/like?userId=${session?.user?.id}&articleId=${props.articleId}`,
 			);
 			setIsLike(Boolean(data));
 		})();

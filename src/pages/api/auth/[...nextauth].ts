@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		session: async ({ session, user }) => {
 			if (session?.user) {
-				session.user.id = user.id;
+				session.user.id = user.id; //方便后面接口可以直接获取到用户ID
 			}
 			return session;
 		},
